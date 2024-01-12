@@ -114,6 +114,13 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void setX(){
+      mSwerveMods[0].setDesiredState(new SwerveModuleState(0.1, Rotation2d.fromDegrees(45.0)),true);
+      mSwerveMods[1].setDesiredState(new SwerveModuleState(0.1, Rotation2d.fromDegrees(315.0)),true);
+      mSwerveMods[2].setDesiredState(new SwerveModuleState(0.1, Rotation2d.fromDegrees(315.0)),true);
+      mSwerveMods[3].setDesiredState(new SwerveModuleState(0.1, Rotation2d.fromDegrees(45.0)),true);
+    }
+
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
