@@ -130,6 +130,22 @@ public final class Constants {
         }
     }
 
+    public static final class Climbers{
+      public static final int CLIMBER_MOTOR_PULL_R = 10;
+      public static final int CLIMBER_MOTOR_PULL_L = 11;
+    }
+
+    public static final class Shooter{
+      public static final int ShooterMotorLeftID = 12;
+      public static final int ShooterMotorRightID = 13;
+    }
+
+    public static final class GroundIntake{
+      public static final int INTAKE_MOTOR_ID = 14;
+      public static final int INDEXING_LEFT_ID = 15;
+      public static final int INDEXING_RIGHT_ID = 16;
+    }
+
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
