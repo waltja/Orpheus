@@ -15,6 +15,11 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
+    public static final int INTAKE_MOTOR_ID = 0;
+    public static final int INDEXING_LEFT_ID = 0;
+    public static final int INDEXING_RIGHT_ID = 0;
+
+
     public static final class Swerve {
         public static final int pigeonID = 1;
 
@@ -145,4 +150,5 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
 }
