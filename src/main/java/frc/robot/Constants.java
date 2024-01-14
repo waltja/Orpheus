@@ -19,7 +19,7 @@ public final class Constants {
         public static final int pigeonID = 1;
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
         //AKSHITA: when you have Kraken motors, make sure to change "Falcon500" to KrakenX60
 
         /* Drivetrain Constants */
@@ -144,6 +144,16 @@ public final class Constants {
       public static final int INTAKE_MOTOR_ID = 14;
       public static final int INDEXING_LEFT_ID = 15;
       public static final int INDEXING_RIGHT_ID = 16;
+    }
+
+    public static final class AmpBar{
+      public static final int AMP_BAR_MOTOR_ID = 17;
+      public static final int AMP_BAR_CANANDCODER_ID = 0;
+      public static final double p = 0.0;
+      public static final double i = 0.0;
+      public static final double d = 0.0;
+      public static final Rotation2d retractAngle = Rotation2d.fromDegrees(0);
+      public static final Rotation2d deployAngle = Rotation2d.fromDegrees(105);
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
