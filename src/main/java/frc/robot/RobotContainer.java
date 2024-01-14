@@ -18,8 +18,13 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    /* Button Labels */
+    JoystickButton DA, DB, DX, DY, DLB, DRB, DRT, DLT, DM1, DM2;
+    JoystickButton AA, AB, AX, AY, ALB, ARB, ALT, ART, AM1, AM2;
+
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    private final XboxController baseDriver = new XboxController(0);
+    private final XboxController armDriver = new XboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -27,11 +32,27 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton zeroGyro = new JoystickButton(baseDriver, XboxController.Button.kY.value);
+    private final JoystickButton robotCentric = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final AmpBar ampBar = new AmpBar();
+    private final Climbers climbers = new Climbers();
+    private final GroundIntake groundIntake = new GroundIntake();
+    private final Shooter shooter = new Shooter();
+  
+
+
+    /* Commands */
+    private final AmpBarIn ampBarIn;
+    private final AmpBarOut ampBarOut;
+    private final ClimbersDown climbersDown;
+    private final ClimbersUp climbersUp;
+    private final Intake intake;
+    private final Outtake outtake;
+    private final ShootIntoAmp shootIntoAmp;
+    private final ShootIntoSpeaker shootIntoSpeaker;
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -39,12 +60,49 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -baseDriver.getRawAxis(translationAxis), 
+                () -> -baseDriver.getRawAxis(strafeAxis), 
+                () -> -baseDriver.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
         );
+
+        ampBarIn = new AmpBarIn(ampBar);
+        ampBarIn.addRequirements(ampBar);
+        ampBarOut = new AmpBarOut(ampBar);
+        ampBarOut.addRequirements(ampBar);
+        climbersDown = new ClimbersDown(climbers);
+        climbersDown.addRequirements(climbers);
+        climbersUp = new ClimbersUp(climbers);
+        climbersUp.addRequirements(climbers);
+        intake = new Intake(groundIntake);
+        intake.addRequirements(groundIntake);
+        outtake = new Outtake(groundIntake);
+        outtake.addRequirements(groundIntake);
+        shootIntoAmp = new ShootIntoAmp(shooter);
+        shootIntoAmp.addRequirements(shooter);
+        shootIntoSpeaker = new ShootIntoSpeaker(shooter);
+        shootIntoSpeaker.addRequirements(shooter);
+
+         // Declare Driver Controller Buttons
+         DA = new JoystickButton(baseDriver, 1);
+         DB = new JoystickButton(baseDriver, 2);
+         DX = new JoystickButton(baseDriver, 3);
+         DY = new JoystickButton(baseDriver, 4);
+         DLB = new JoystickButton(baseDriver, 5);
+         DRB = new JoystickButton(baseDriver, 6);
+         DM1 = new JoystickButton(baseDriver, 7);
+         DM2 = new JoystickButton(baseDriver, 8);
+ 
+         // Declare Arm Controller Buttons
+         AA = new JoystickButton(armDriver, 1);
+         AB = new JoystickButton(armDriver, 2);
+         AX = new JoystickButton(armDriver, 3);
+         AY = new JoystickButton(armDriver, 4);
+         ALB = new JoystickButton(armDriver, 5);
+         ARB = new JoystickButton(armDriver, 6);
+         AM1 = new JoystickButton(armDriver, 8);
+         AM2 = new JoystickButton(armDriver, 10);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -59,7 +117,17 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-    }
+        DLB.whileTrue(climbersUp);
+        DRB.whileTrue(climbersDown);
+
+        /* Operator Buttons */
+        ALT.whileTrue(shootIntoAmp);
+        ART.whileTrue(shootIntoSpeaker);
+        ALB.whileTrue(intake);
+        ARB.whileTrue(outtake);
+        AY.onTrue(ampBarOut);
+        AA.onTrue(ampBarIn);
+      }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
