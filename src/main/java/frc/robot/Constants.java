@@ -147,12 +147,16 @@ public final class Constants {
 
     public static final class GroundIntake{
       public static final int INTAKE_MOTOR_ID = 14;
-      public static final int INDEXING_LEFT_ID = 15;
-      public static final int INDEXING_RIGHT_ID = 16;
+      public static final int INTAKE_PIVOT_ID = 15;
+      public static final double p = 0;
+      public static final double i = 0;
+      public static final double d = 0;
+      public static final Rotation2d retractAngle = Rotation2d.fromDegrees(0);
+      public static final Rotation2d deployAngle = Rotation2d.fromDegrees(0);
     }
 
     public static final class AmpBar{
-      public static final int AMP_BAR_MOTOR_ID = 17;
+      public static final int AMP_BAR_MOTOR_ID = 16;
       public static final int AMP_BAR_CANANDCODER_ID = 0;
       public static final double p = 0.0;
       public static final double i = 0.0;

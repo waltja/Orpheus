@@ -50,8 +50,9 @@ public class RobotContainer {
     private final ClimbersDown climbersDown;
     private final ClimbersUp climbersUp;
     private final Intake intake;
+    private final IntakeDown intakeDown;
+    private final IntakeUp intakeUp;
     private final Outtake outtake;
-    private final ShootIntoAmp shootIntoAmp;
     private final ShootIntoSpeaker shootIntoSpeaker;
 
 
@@ -67,9 +68,9 @@ public class RobotContainer {
             )
         );
 
-        ampBarIn = new AmpBarIn(ampBar);
+        ampBarIn = new AmpBarIn(ampBar, shooter);
         ampBarIn.addRequirements(ampBar);
-        ampBarOut = new AmpBarOut(ampBar);
+        ampBarOut = new AmpBarOut(ampBar, shooter);
         ampBarOut.addRequirements(ampBar);
         climbersDown = new ClimbersDown(climbers);
         climbersDown.addRequirements(climbers);
@@ -77,10 +78,12 @@ public class RobotContainer {
         climbersUp.addRequirements(climbers);
         intake = new Intake(groundIntake);
         intake.addRequirements(groundIntake);
+        intakeDown = new IntakeDown(groundIntake);
+        intakeDown.addRequirements(groundIntake);
+        intakeUp = new IntakeUp(groundIntake);
+        intakeUp.addRequirements(groundIntake);
         outtake = new Outtake(groundIntake);
         outtake.addRequirements(groundIntake);
-        shootIntoAmp = new ShootIntoAmp(shooter);
-        shootIntoAmp.addRequirements(shooter);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
 
@@ -121,9 +124,10 @@ public class RobotContainer {
         DRB.whileTrue(climbersDown);
 
         /* Operator Buttons */
-        ALT.whileTrue(shootIntoAmp);
-        ART.whileTrue(shootIntoSpeaker);
+        ALT.whileTrue(shootIntoSpeaker);
         ALB.whileTrue(intake);
+        AX.onTrue(intakeUp);
+        AB.onTrue(intakeDown);
         ARB.whileTrue(outtake);
         AY.onTrue(ampBarOut);
         AA.onTrue(ampBarIn);

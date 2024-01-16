@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase;
 
 import frc.robot.Constants;
 import edu.wpi.first.math.MathUtil;
@@ -19,11 +19,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
 public class AmpBar extends SubsystemBase {
-  CANSparkMax AmpBarMotor;
-  SparkPIDController controller;
-  Rotation2d setpoint = new Rotation2d();
-  double abspos;
-  SparkAbsoluteEncoder sparkencoder;
+  private static CANSparkMax AmpBarMotor;
+  private static SparkPIDController controller;
+  private static Rotation2d setpoint = new Rotation2d();
+  private static SparkAbsoluteEncoder sparkencoder;
 
 
   /** Creates a new Climbers. */
@@ -36,9 +35,6 @@ public class AmpBar extends SubsystemBase {
     controller.setI(Constants.AmpBar.i);
     controller.setD(Constants.AmpBar.d);
 
-    // Reads the PWM Canandcoder position in rotations
-    abspos = sparkencoder.getPosition();
-
     AmpBarMotor.restoreFactoryDefaults();
     
     // configure the Spark Max to use the PWM-connected Canandcoder for 
@@ -48,7 +44,7 @@ public class AmpBar extends SubsystemBase {
 
   public void setRotation (Rotation2d angle){
     setpoint = angle;
-    controller.setReference(MathUtil.clamp(angle.getRadians(), Constants.AmpBar.retractAngle.getRadians(), Constants.AmpBar.deployAngle.getRadians()), ControlType.kPosition);
+    controller.setReference(MathUtil.clamp(angle.getRadians(), Constants.AmpBar.retractAngle.getRadians(), Constants.AmpBar.deployAngle.getRadians()), CANSparkBase.ControlType.kPosition);
   }
 
   public void deploy(){

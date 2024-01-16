@@ -6,13 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AmpBar;
+import frc.robot.subsystems.Shooter;
 
 public class AmpBarIn extends Command {
   private AmpBar ampBar;
+  private Shooter shooter;
   /** Creates a new AmpBarOut. */
-  public AmpBarIn(AmpBar ampBar) {
+  public AmpBarIn(AmpBar ampBar, Shooter shooter) {
     this.ampBar = ampBar;
     addRequirements(ampBar);
+
+    this.shooter = shooter;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,6 +29,7 @@ public class AmpBarIn extends Command {
   @Override
   public void execute() {
     ampBar.retract();
+    shooter.stop();
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +39,6 @@ public class AmpBarIn extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ampBar.isFinished(100.0);
   }
 }

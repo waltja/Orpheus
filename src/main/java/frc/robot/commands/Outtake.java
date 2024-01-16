@@ -23,7 +23,7 @@ public class Outtake extends Command {
 
   @Override
   public void execute() {
-    intake.intake(-.5, -.2); // change velocities later
+    intake.intake(-1); // change velocities later
   }
 
   @Override

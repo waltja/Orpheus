@@ -5,19 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AmpBar;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.GroundIntake;
 
-public class AmpBarOut extends Command {
-  private AmpBar ampBar;
-  private Shooter shooter;
-  /** Creates a new AmpBarOut. */
-  public AmpBarOut(AmpBar ampBar, Shooter shooter) {
-    this.ampBar = ampBar;
-    addRequirements(ampBar);
-
-    this.shooter = shooter;
-    addRequirements(shooter);
+public class IntakeDown extends Command {
+  private GroundIntake intake;
+  /** Creates a new IntakeUp. */
+  public IntakeDown(GroundIntake intake) {
+    this.intake = intake;
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,8 +23,7 @@ public class AmpBarOut extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ampBar.deploy();
-    shooter.setShooterSpeed(.75);
+    intake.deploy();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +33,6 @@ public class AmpBarOut extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ampBar.isFinished(100.0);
+    return intake.pivotIsFinished(100);
   }
 }

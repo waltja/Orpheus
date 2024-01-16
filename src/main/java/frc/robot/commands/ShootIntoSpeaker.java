@@ -3,7 +3,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 public class ShootIntoSpeaker extends Command {
   /** Creates a new ShootIntoSpeaker. */
-  Shooter shooter;
+  private Shooter shooter;
   public ShootIntoSpeaker(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
