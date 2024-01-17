@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
 
 import frc.robot.Constants;
@@ -29,13 +30,14 @@ public class AmpBar extends SubsystemBase {
   public AmpBar() {
     // Instantiate a Spark MAX and get a handle to a PWM absolute encoder
     AmpBarMotor = new CANSparkMax(Constants.AmpBar.AMP_BAR_MOTOR_ID, MotorType.kBrushless);
+    AmpBarMotor.restoreFactoryDefaults();
+    AmpBarMotor.setIdleMode(IdleMode.kBrake);
     controller = AmpBarMotor.getPIDController();
     sparkencoder = AmpBarMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     controller.setP(Constants.AmpBar.p);
     controller.setI(Constants.AmpBar.i);
     controller.setD(Constants.AmpBar.d);
 
-    AmpBarMotor.restoreFactoryDefaults();
     
     // configure the Spark Max to use the PWM-connected Canandcoder for 
     // closed-Loop control

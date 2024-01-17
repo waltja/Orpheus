@@ -8,6 +8,7 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,6 +31,7 @@ public class GroundIntake extends SubsystemBase {
 
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
     intakePivot.restoreFactoryDefaults();
+    intakePivot.setIdleMode(IdleMode.kBrake);
     controller = intakePivot.getPIDController();
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     controller.setP(Constants.GroundIntake.p);
