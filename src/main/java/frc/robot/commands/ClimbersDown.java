@@ -5,16 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.GroundIntake;
+import frc.robot.subsystems.Climbers;
 
-public class Outtake extends Command {
-  private GroundIntake intake;
+public class ClimbersDown extends Command {
+ 
+  private Climbers climbers;
 
+  public ClimbersDown(Climbers climbers) {
 
-  public Outtake(GroundIntake intake) {
+    this.climbers = climbers;
+    addRequirements(climbers);
     
-    this.intake = intake;
-    addRequirements(intake);
   }
 
   @Override
@@ -22,12 +23,12 @@ public class Outtake extends Command {
 
   @Override
   public void execute() {
-    intake.intake(-.5, -.2); // change velocities later
+    climbers.climberMove(-1); 
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.stop();
+    climbers.climbersStop();
   }
 
   @Override

@@ -30,11 +30,7 @@ public class Climbers extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void climberUp(double speedR){
-    climberPullR.set(speedR);
-  }
-
-  public void climberDown(double speedR){
+  public void climberMove(double speedR){
     climberPullR.set(speedR);
   }
 

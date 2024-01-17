@@ -11,19 +11,26 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   CANSparkMax ShooterMotorLeft;
   CANSparkMax ShooterMotorRight;
+  
     public Shooter() {
+
         ShooterMotorLeft = new CANSparkMax(Constants.Shooter.ShooterMotorLeftID, MotorType.kBrushless);
         ShooterMotorRight = new CANSparkMax(Constants.Shooter.ShooterMotorRightID, MotorType.kBrushless);
         ShooterMotorLeft.restoreFactoryDefaults();
         ShooterMotorRight.restoreFactoryDefaults();
         ShooterMotorLeft.follow(ShooterMotorRight);
         ShooterMotorLeft.setInverted(true);
+
     }
     public void setShooterSpeed(Double Speed) {
+
         ShooterMotorRight.set(Speed);
+
     }
     public void stop() {
+
         ShooterMotorRight.stopMotor();
+
     }
   @Override
   public void periodic() {

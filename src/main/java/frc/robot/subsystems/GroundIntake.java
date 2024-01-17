@@ -16,33 +16,49 @@ public class GroundIntake extends SubsystemBase {
   private final String tooHotAlert = "Intake motor disabled due to very high temperature.";
   public double motorTemperautre;
   public GroundIntake() {
+
     intakeMotor = new CANSparkMax(Constants.GroundIntake.INTAKE_MOTOR_ID, MotorType.kBrushless);
+
     indexingLeft = new CANSparkMax(Constants.GroundIntake.INDEXING_LEFT_ID, MotorType.kBrushless);
     indexingRight = new CANSparkMax(Constants.GroundIntake.INDEXING_RIGHT_ID, MotorType.kBrushless);
+
     intakeMotor.restoreFactoryDefaults();
     indexingLeft.restoreFactoryDefaults();
     indexingRight.restoreFactoryDefaults();
+
     indexingRight.follow(indexingLeft, true);
+
     intakeMotor.setSmartCurrentLimit(40, 30);
     motorTemperautre = intakeMotor.getMotorTemperature();
+    
   }
   public void intake(double intakeSpeed, double indexingSpeed){
+
     intakeMotor.set(intakeSpeed);
     indexingLeft.set(indexingSpeed);
+
   }
   public void stop(){
+
     intakeMotor.stopMotor();
     indexingLeft.stopMotor();
+
   }
   @Override
   public void periodic() {
+  
     motorTemperautre = intakeMotor.getMotorTemperature();
+
     if(tooHotAlertActive){
+
       intakeMotor.setVoltage(0.0);
       System.out.println(tooHotAlert);
+
     }
     // Update too hot alert
-    if(motorTemperautre >= tooHotTemperatureHigh){tooHotAlertActive = true;}
+    if(motorTemperautre >= tooHotTemperatureHigh){
+      tooHotAlertActive = true;
+    }
     if (tooHotAlertActive) {
       if (motorTemperautre < tooHotTemperatureLow) {
         tooHotAlertActive = false;
