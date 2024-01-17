@@ -21,7 +21,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class AmpBar extends SubsystemBase {
   private static CANSparkMax AmpBarMotor;
   private static SparkPIDController controller;
-  private static Rotation2d setpoint = new Rotation2d();
+  private static double setpoint;
   private static SparkAbsoluteEncoder sparkencoder;
 
 
@@ -42,9 +42,9 @@ public class AmpBar extends SubsystemBase {
     AmpBarMotor.getPIDController().setFeedbackDevice(sparkencoder);
   }
 
-  public void setRotation (Rotation2d angle){
+  public void setRotation (double angle){
     setpoint = angle;
-    controller.setReference(MathUtil.clamp(angle.getRadians(), Constants.AmpBar.retractAngle.getRadians(), Constants.AmpBar.deployAngle.getRadians()), CANSparkBase.ControlType.kPosition);
+    controller.setReference(MathUtil.clamp(angle, Constants.AmpBar.retractAngle, Constants.AmpBar.deployAngle), CANSparkBase.ControlType.kPosition);
   }
 
   public void deploy(){
@@ -56,7 +56,7 @@ public class AmpBar extends SubsystemBase {
   }
 
   public boolean isFinished(double tolerance){
-    return Math.abs(setpoint.getRadians() - sparkencoder.getPosition()) < tolerance;
+    return Math.abs(setpoint - sparkencoder.getPosition()) < tolerance;
   }
 
   @Override

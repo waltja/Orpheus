@@ -151,8 +151,8 @@ public final class Constants {
       public static final double p = 0;
       public static final double i = 0;
       public static final double d = 0;
-      public static final Rotation2d retractAngle = Rotation2d.fromDegrees(0);
-      public static final Rotation2d deployAngle = Rotation2d.fromDegrees(0);
+      public static final double retractAngle = 0;
+      public static final double deployAngle = 0;
     }
 
     public static final class AmpBar{
@@ -161,8 +161,8 @@ public final class Constants {
       public static final double p = 0.0;
       public static final double i = 0.0;
       public static final double d = 0.0;
-      public static final Rotation2d retractAngle = Rotation2d.fromDegrees(0);
-      public static final Rotation2d deployAngle = Rotation2d.fromDegrees(105);
+      public static final double retractAngle = 0;
+      public static final double deployAngle = 0;
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot

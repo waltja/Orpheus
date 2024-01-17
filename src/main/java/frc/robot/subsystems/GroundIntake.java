@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkBase;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GroundIntake extends SubsystemBase {
@@ -19,7 +20,7 @@ public class GroundIntake extends SubsystemBase {
 
   private static CANSparkMax intakePivot;
   private static SparkPIDController controller;
-  private static Rotation2d setpoint = new Rotation2d();
+  private static double setpoint;
   private static SparkAbsoluteEncoder sparkencoder;
 
   public GroundIntake() {
@@ -46,9 +47,9 @@ public class GroundIntake extends SubsystemBase {
     intakeMotor.set(speed);
   }
 
-  public void setRotation (Rotation2d angle){
+  public void setRotation (double angle){
     setpoint = angle;
-    controller.setReference(MathUtil.clamp(angle.getRadians(), Constants.GroundIntake.retractAngle.getRadians(), Constants.GroundIntake.deployAngle.getRadians()), CANSparkBase.ControlType.kPosition);
+    controller.setReference(MathUtil.clamp(angle, Constants.GroundIntake.retractAngle, Constants.GroundIntake.deployAngle), CANSparkBase.ControlType.kPosition);
   }
 
   public void deploy(){
@@ -60,7 +61,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public boolean pivotIsFinished(double tolerance){
-    return Math.abs(setpoint.getRadians() - sparkencoder.getPosition()) < tolerance;
+    return Math.abs(setpoint - sparkencoder.getPosition()) < tolerance;
   }
 
   public void stop(){
@@ -68,5 +69,6 @@ public class GroundIntake extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Ground Intake Motor Position", sparkencoder.getPosition());
   }
 }
