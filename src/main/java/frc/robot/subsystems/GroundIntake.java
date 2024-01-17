@@ -38,6 +38,8 @@ public class GroundIntake extends SubsystemBase {
     controller.setI(Constants.GroundIntake.i);
     controller.setD(Constants.GroundIntake.d);
 
+    setpoint = sparkencoder.getPosition();
+    
     intakePivot.getPIDController().setFeedbackDevice(sparkencoder);
   }
 

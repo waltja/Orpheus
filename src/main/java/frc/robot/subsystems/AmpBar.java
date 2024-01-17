@@ -37,6 +37,7 @@ public class AmpBar extends SubsystemBase {
     controller.setP(Constants.AmpBar.p);
     controller.setI(Constants.AmpBar.i);
     controller.setD(Constants.AmpBar.d);
+    setpoint = sparkencoder.getPosition();
 
     
     // configure the Spark Max to use the PWM-connected Canandcoder for 
