@@ -50,6 +50,10 @@ public class AmpBar extends SubsystemBase {
     controller.setReference(MathUtil.clamp(angle, Constants.AmpBar.retractAngle, Constants.AmpBar.deployAngle), CANSparkBase.ControlType.kPosition);
   }
 
+  public void manualRotate(double speed){
+    AmpBarMotor.set(speed);
+  }
+
   public void deploy(){
     setRotation(Constants.AmpBar.deployAngle);
   }

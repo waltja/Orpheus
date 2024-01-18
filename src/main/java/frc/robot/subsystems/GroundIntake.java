@@ -39,7 +39,7 @@ public class GroundIntake extends SubsystemBase {
     controller.setD(Constants.GroundIntake.d);
 
     setpoint = sparkencoder.getPosition();
-    
+
     intakePivot.getPIDController().setFeedbackDevice(sparkencoder);
   }
 
@@ -54,6 +54,10 @@ public class GroundIntake extends SubsystemBase {
   public void setRotation (double angle){
     setpoint = angle;
     controller.setReference(MathUtil.clamp(angle, Constants.GroundIntake.retractAngle, Constants.GroundIntake.deployAngle), CANSparkBase.ControlType.kPosition);
+  }
+
+  public void manualRotate(double speed){
+    intakePivot.set(speed);
   }
 
   public void deploy(){
