@@ -78,6 +78,17 @@ public class RobotContainer {
             )
         );
 
+        groundIntake.setDefaultCommand(
+            new ManualPivotIntake(
+                groundIntake, 
+                () -> armDriver.getRawAxis(translationAxis)));
+        
+        ampBar.setDefaultCommand(
+            new ManualAmpBar(
+                ampBar, 
+                () -> armDriver.getRawAxis(XboxController.Axis.kRightY.value))
+        );
+
         ampBarIn = new AmpBarIn(ampBar, shooter);
         ampBarIn.addRequirements(ampBar);
         ampBarOut = new AmpBarOut(ampBar, shooter);
