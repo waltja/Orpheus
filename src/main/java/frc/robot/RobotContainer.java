@@ -148,9 +148,9 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
-        /* Driver Buttons */
+    private void configureButtonBindings() { 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        /* 
         DLB.whileTrue(climbersUp);
         DRB.whileTrue(climbersDown);
 
@@ -162,6 +162,7 @@ public class RobotContainer {
         ARB.whileTrue(outtake);
         AY.onTrue(ampBarOut);
         AA.onTrue(ampBarIn);
+        */
         
       }
 
