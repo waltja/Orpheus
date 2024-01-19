@@ -4,45 +4,35 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.GroundIntake;
 
-public class XLock extends Command {
-
-  Swerve swerve;
-  private Timer timer;
-  
-  public XLock(Swerve swerve) {
-    
-    this.swerve = swerve;
-    addRequirements(swerve);
-    this.timer = new Timer();
-
+public class IntakeUp extends Command {
+  private GroundIntake intake;
+  /** Creates a new IntakeUp. */
+  public IntakeUp(GroundIntake intake) {
+    this.intake = intake;
+    addRequirements(intake);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    timer.reset();
-    timer.start();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerve.setX();
+    intake.retract();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return intake.pivotIsFinished(100);
   }
 }
