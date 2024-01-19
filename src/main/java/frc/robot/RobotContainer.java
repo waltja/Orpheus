@@ -154,7 +154,7 @@ public class RobotContainer {
         DLB.whileTrue(climbersUp);
         DRB.whileTrue(climbersDown);
 
-        /* Operator Buttons 
+        // Operator Buttons 
         ALT.whileTrue(shootIntoSpeaker);
         ALB.whileTrue(intake);
         AX.onTrue(intakeUp);
@@ -162,7 +162,7 @@ public class RobotContainer {
         ARB.whileTrue(outtake);
         AY.onTrue(ampBarOut);
         AA.onTrue(ampBarIn);
-        */
+        
       }
 
     /**
