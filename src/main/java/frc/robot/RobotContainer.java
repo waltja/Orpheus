@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -133,6 +134,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("intakeUp", intakeUp);
         NamedCommands.registerCommand("intake", intake);
         NamedCommands.registerCommand("outtake", outtake);
+        NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
 
 
         // Configure the button bindings
@@ -174,7 +176,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         //return autoChooser.getSelected();
-        PathPlannerPath path = PathPlannerPath.fromPathFile("Leave Zone");
-        return AutoBuilder.followPath(path);
+       return new PathPlannerAuto("Leave Zone");
     }
 }
