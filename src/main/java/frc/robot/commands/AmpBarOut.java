@@ -39,6 +39,6 @@ public class AmpBarOut extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ampBar.isFinished(100.0);
+    return ampBar.isFinished();
   }
 }

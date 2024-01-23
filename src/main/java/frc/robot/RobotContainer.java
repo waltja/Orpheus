@@ -1,17 +1,25 @@
 package frc.robot;
 
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.commands.PathfindHolonomic;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -142,6 +150,23 @@ public class RobotContainer {
         
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
+            Pose2d currentPose = s_Swerve.getPose();
+
+            Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2,0)), new Rotation2d());
+            List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
+
+            PathPlannerPath path = new PathPlannerPath(
+            bezierPoints,
+             new PathConstraints(3, 3, 2*Math.PI, 4*Math.PI),
+             new GoalEndState(0, Rotation2d.fromDegrees(0))
+            );
+            path.preventFlipping = true;
+
+            AutoBuilder.followPath(path).schedule();
+        }));
     }
 
     /**
@@ -162,10 +187,10 @@ public class RobotContainer {
         AX.onTrue(intakeUp);
         AB.onTrue(intakeDown);
         ARB.whileTrue(outtake);
+        
+        */
         AY.onTrue(ampBarOut);
         AA.onTrue(ampBarIn);
-        */
-        
       }
 
     /**
@@ -175,7 +200,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        //return autoChooser.getSelected();
-       return new PathPlannerAuto("Leave Zone");
+        return autoChooser.getSelected();
+       //return new PathPlannerAuto("Leave Zone");
     }
 }
