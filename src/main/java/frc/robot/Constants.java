@@ -158,10 +158,10 @@ public final class Constants {
     public static final class AmpBar{
       public static final int AMP_BAR_MOTOR_ID = 17;
       public static final int AMP_BAR_CANANDCODER_ID = 0;
-      public static final double p = 0.5;
-      public static final double i = 0.0;
+      public static final double p = 1;
+      public static final double i = 0.001;
       public static final double d = 0;
-      public static final double retractAngle = .25;
+      public static final double retractAngle = .9;
       public static final double deployAngle = .5;
     }
 
