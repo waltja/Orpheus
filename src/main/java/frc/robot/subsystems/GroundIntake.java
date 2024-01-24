@@ -5,13 +5,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,8 +17,8 @@ public class GroundIntake extends SubsystemBase {
   private static TalonFX intakeMotor;
 
   private static CANSparkMax intakePivot;
-  private static SparkPIDController controller;
-  private static double setpoint;
+  private static CANSparkMax intakePivotFollower;
+  private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
 
   public GroundIntake() {
@@ -30,17 +27,21 @@ public class GroundIntake extends SubsystemBase {
     intakeMotor.setSafetyEnabled(true);
 
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
+    intakePivotFollower = new CANSparkMax(Constants.GroundIntake.Intake_PIVOT_FOLLOWER_ID, MotorType.kBrushless);
     intakePivot.restoreFactoryDefaults();
+    intakePivotFollower.restoreFactoryDefaults();
     intakePivot.setIdleMode(IdleMode.kBrake);
-    controller = intakePivot.getPIDController();
+    intakePivotFollower.setIdleMode(IdleMode.kBrake);
+    intakePivotFollower.follow(intakePivot, true);
+  
+    controller = new PIDController(
+      Constants.GroundIntake.p,
+      Constants.GroundIntake.i, 
+      Constants.GroundIntake.d);
+
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-    controller.setP(Constants.GroundIntake.p);
-    controller.setI(Constants.GroundIntake.i);
-    controller.setD(Constants.GroundIntake.d);
 
-    setpoint = sparkencoder.getPosition();
-
-    intakePivot.getPIDController().setFeedbackDevice(sparkencoder);
+    controller.setTolerance(.05);
   }
 
   public void intake(double speed){
@@ -52,8 +53,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void setRotation (double angle){
-    setpoint = angle;
-    controller.setReference(MathUtil.clamp(angle, Constants.GroundIntake.retractAngle, Constants.GroundIntake.deployAngle), CANSparkBase.ControlType.kPosition);
+    intakePivot.set(controller.calculate(sparkencoder.getPosition(), angle));
   }
 
   public void manualRotate(double speed){
@@ -68,8 +68,8 @@ public class GroundIntake extends SubsystemBase {
     setRotation(Constants.GroundIntake.retractAngle);
   }
 
-  public boolean pivotIsFinished(double tolerance){
-    return Math.abs(setpoint - sparkencoder.getPosition()) < tolerance;
+  public boolean pivotIsFinished(){
+    return controller.atSetpoint();
   }
 
   public void stop(){

@@ -153,6 +153,7 @@ public final class Constants {
       public static final double d = 0;
       public static final double retractAngle = 0;
       public static final double deployAngle = 0;
+      public static final int Intake_PIVOT_FOLLOWER_ID = 16;
     }
 
     public static final class AmpBar{
@@ -161,8 +162,8 @@ public final class Constants {
       public static final double p = 1;
       public static final double i = 0.001;
       public static final double d = 0;
-      public static final double retractAngle = .9;
-      public static final double deployAngle = .5;
+      public static final double retractAngle = 15;
+      public static final double deployAngle = 5;
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot

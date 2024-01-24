@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
@@ -21,8 +20,7 @@ public class Shooter extends SubsystemBase {
         ShooterMotorRight.restoreFactoryDefaults();
         ShooterMotorLeft.setIdleMode(IdleMode.kCoast);
         ShooterMotorRight.setIdleMode(IdleMode.kCoast);
-        ShooterMotorLeft.follow(ShooterMotorRight);
-        ShooterMotorLeft.setInverted(true);
+        ShooterMotorLeft.follow(ShooterMotorRight, true);
 
     }
     public void setShooterSpeed(Double Speed) {

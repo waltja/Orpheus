@@ -33,6 +33,6 @@ public class IntakeDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intake.pivotIsFinished(100);
+    return intake.pivotIsFinished();
   }
 }

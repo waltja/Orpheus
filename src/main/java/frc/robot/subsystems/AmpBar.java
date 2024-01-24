@@ -5,26 +5,24 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import frc.robot.Constants;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-
+// add soft limits and also play with relative encoder stuff
 
 public class AmpBar extends SubsystemBase {
   private static CANSparkMax AmpBarMotor;
   private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
+  private static RelativeEncoder relEnc;
 
 
   /** Creates a new Climbers. */
@@ -43,11 +41,21 @@ public class AmpBar extends SubsystemBase {
 
     sparkencoder = AmpBarMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     //sparkencoder.setPositionConversionFactor(360);
-    controller.setTolerance(.05);
+    controller.setTolerance(1);
+
+    relEnc = AmpBarMotor.getEncoder();
+    //sparkencoder.setPositionConversionFactor(20);
+    relEnc.setPosition(sparkencoder.getPosition() *20);
+    
+
+    AmpBarMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    AmpBarMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    AmpBarMotor.setSoftLimit(SoftLimitDirection.kForward, 15);
+    AmpBarMotor.setSoftLimit(SoftLimitDirection.kReverse,1);
   }
 
   public void setRotation (double angle){
-    AmpBarMotor.set(controller.calculate(sparkencoder.getPosition(), angle));
+    AmpBarMotor.set(controller.calculate(sparkencoder.getPosition() *20, angle));
   }
 
   public void manualRotate(double speed){
@@ -70,6 +78,8 @@ public class AmpBar extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Amp Bar Motor Position", sparkencoder.getPosition());
+    SmartDashboard.putNumber("Absolute Position", sparkencoder.getPosition() *20);
+    // relative encoder testing stuff
+    SmartDashboard.putNumber("Relative Position", relEnc.getPosition());
   }
 }
