@@ -162,8 +162,8 @@ public final class Constants {
       public static final double p = 1;
       public static final double i = 0.001;
       public static final double d = 0;
-      public static final double retractAngle = 15;
-      public static final double deployAngle = 5;
+      public static final double retractAngle = 90;
+      public static final double deployAngle = 270;
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot

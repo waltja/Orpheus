@@ -41,7 +41,7 @@ public class AmpBar extends SubsystemBase {
 
     sparkencoder = AmpBarMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     //sparkencoder.setPositionConversionFactor(360);
-    controller.setTolerance(1);
+    controller.setTolerance(.1);
 
     relEnc = AmpBarMotor.getEncoder();
     //sparkencoder.setPositionConversionFactor(20);
@@ -50,12 +50,12 @@ public class AmpBar extends SubsystemBase {
 
     AmpBarMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     AmpBarMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    AmpBarMotor.setSoftLimit(SoftLimitDirection.kForward, 15);
-    AmpBarMotor.setSoftLimit(SoftLimitDirection.kReverse,1);
+    AmpBarMotor.setSoftLimit(SoftLimitDirection.kForward,(float)(( Constants.AmpBar.deployAngle+10) /18.0));
+    AmpBarMotor.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.AmpBar.retractAngle-10) /18.0));
   }
 
   public void setRotation (double angle){
-    AmpBarMotor.set(controller.calculate(sparkencoder.getPosition() *20, angle));
+    AmpBarMotor.set(controller.calculate(sparkencoder.getPosition() , angle));
   }
 
   public void manualRotate(double speed){
@@ -63,11 +63,11 @@ public class AmpBar extends SubsystemBase {
   }
 
   public void deploy(){
-    setRotation(Constants.AmpBar.deployAngle);
+    setRotation(Constants.AmpBar.deployAngle/360);
   }
 
   public void retract(){
-    setRotation(Constants.AmpBar.retractAngle);
+    setRotation(Constants.AmpBar.retractAngle/360);
   }
 
   public boolean isFinished(){
@@ -78,8 +78,8 @@ public class AmpBar extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Absolute Position", sparkencoder.getPosition() *20);
+    SmartDashboard.putNumber("Absolute Position", sparkencoder.getPosition() *360);
     // relative encoder testing stuff
-    SmartDashboard.putNumber("Relative Position", relEnc.getPosition());
+    SmartDashboard.putNumber("Relative Position", relEnc.getPosition()*18);
   }
 }
