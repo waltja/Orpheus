@@ -152,16 +152,17 @@ public final class Constants {
       public static final double i = 0;
       public static final double d = 0;
       public static final double retractAngle = 0;
-      public static final double deployAngle = 0;
+      public static final double deployAngle = 200;
+      public static final double ampAngle = 100;
       public static final int Intake_PIVOT_FOLLOWER_ID = 16;
     }
 
     public static final class AmpBar{
       public static final int AMP_BAR_MOTOR_ID = 17;
       public static final int AMP_BAR_CANANDCODER_ID = 0;
-      public static final double p = 1;
-      public static final double i = 0.001;
-      public static final double d = 0;
+      public static final double p = .7;
+      public static final double i = 0.01;
+      public static final double d = 0.1;
       public static final double retractAngle = 90;
       public static final double deployAngle = 270;
     }

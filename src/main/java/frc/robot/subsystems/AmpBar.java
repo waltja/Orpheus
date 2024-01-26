@@ -41,10 +41,10 @@ public class AmpBar extends SubsystemBase {
 
     sparkencoder = AmpBarMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     //sparkencoder.setPositionConversionFactor(360);
-    controller.setTolerance(.1);
+    controller.setTolerance(.01);
 
     relEnc = AmpBarMotor.getEncoder();
-    //sparkencoder.setPositionConversionFactor(20);
+    
     relEnc.setPosition(sparkencoder.getPosition() *20);
     
 
@@ -55,7 +55,7 @@ public class AmpBar extends SubsystemBase {
   }
 
   public void setRotation (double angle){
-    AmpBarMotor.set(controller.calculate(sparkencoder.getPosition() , angle));
+    AmpBarMotor.set(controller.calculate(relEnc.getPosition()/20.0 , angle));
   }
 
   public void manualRotate(double speed){

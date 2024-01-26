@@ -2,22 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AmpBar;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.AmpBar;
-import frc.robot.subsystems.Shooter;
 
-public class AmpBarOut extends Command {
+public class ManualAmpBar extends Command {
   private AmpBar ampBar;
-  private Shooter shooter;
-  /** Creates a new AmpBarOut. */
-  public AmpBarOut(AmpBar ampBar, Shooter shooter) {
+  private DoubleSupplier ySup;
+  /** Creates a new ManualAmpBar. */
+  public ManualAmpBar(AmpBar ampBar, DoubleSupplier ySup) {
     this.ampBar = ampBar;
+    this.ySup = ySup;
     addRequirements(ampBar);
-
-    this.shooter = shooter;
-    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,8 +29,8 @@ public class AmpBarOut extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ampBar.deploy();
-    shooter.setShooterSpeed(.75);
+    double yVal = MathUtil.applyDeadband(ySup.getAsDouble(), Constants.stickDeadband);
+    ampBar.manualRotate(yVal);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +40,6 @@ public class AmpBarOut extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ampBar.isFinished();
+    return false;
   }
 }

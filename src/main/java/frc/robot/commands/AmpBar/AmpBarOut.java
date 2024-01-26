@@ -2,17 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AmpBar;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.GroundIntake;
+import frc.robot.subsystems.AmpBar;
+import frc.robot.subsystems.Shooter;
 
-public class IntakeUp extends Command {
-  private GroundIntake intake;
-  /** Creates a new IntakeUp. */
-  public IntakeUp(GroundIntake intake) {
-    this.intake = intake;
-    addRequirements(intake);
+public class AmpBarOut extends Command {
+  private AmpBar ampBar;
+  private Shooter shooter;
+  /** Creates a new AmpBarOut. */
+  public AmpBarOut(AmpBar ampBar, Shooter shooter) {
+    this.ampBar = ampBar;
+    addRequirements(ampBar);
+
+    this.shooter = shooter;
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,7 +28,8 @@ public class IntakeUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.retract();
+    ampBar.deploy();
+    shooter.setShooterSpeed(.75);
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +39,6 @@ public class IntakeUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intake.pivotIsFinished();
+    return ampBar.isFinished();
   }
 }

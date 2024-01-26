@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.AmpBar;
+import frc.robot.subsystems.GroundIntake;
 
-public class ManualAmpBar extends Command {
-  private AmpBar ampBar;
+public class ManualPivotIntake extends Command {
+  private GroundIntake intake;
   private DoubleSupplier ySup;
-  /** Creates a new ManualAmpBar. */
-  public ManualAmpBar(AmpBar ampBar, DoubleSupplier ySup) {
-    this.ampBar = ampBar;
+  /** Creates a new ManualPivotIntake. */
+  public ManualPivotIntake(GroundIntake intake, DoubleSupplier ySup) {
+    this.intake = intake;
     this.ySup = ySup;
-    addRequirements(ampBar);
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,7 +30,7 @@ public class ManualAmpBar extends Command {
   @Override
   public void execute() {
     double yVal = MathUtil.applyDeadband(ySup.getAsDouble(), Constants.stickDeadband);
-    ampBar.manualRotate(yVal);
+    intake.manualRotate(yVal);
   }
 
   // Called once the command ends or is interrupted.

@@ -20,7 +20,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.*;
+import frc.robot.commands.AmpBar.*;
+import frc.robot.commands.Climbers.*;
+import frc.robot.commands.Intake.*;
+import frc.robot.commands.Shooter.*;
+import frc.robot.commands.Swerve.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -50,7 +54,8 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final AmpBar ampBar = new AmpBar();
-    private final Climbers climbers = new Climbers();
+    private final LeftClimber leftClimber = new LeftClimber();
+    private final RightClimber rightClimber = new RightClimber();
     private final GroundIntake groundIntake = new GroundIntake();
     private final Shooter shooter = new Shooter();
   
@@ -59,11 +64,14 @@ public class RobotContainer {
     /* Commands */
     private final AmpBarIn ampBarIn;
     private final AmpBarOut ampBarOut;
-    private final ClimbersDown climbersDown;
-    private final ClimbersUp climbersUp;
+    private final LeftClimberDown leftClimberDown;
+    private final LeftClimberUp leftClimberUp;
+    private final RightClimberDown rightClimberDown;
+    private final RightClimberUp rightClimberUp;
     private final Intake intake;
     private final IntakeDown intakeDown;
     private final IntakeUp intakeUp;
+    private final AmpAngle ampAngle;
     private final Outtake outtake;
     private final ShootIntoSpeaker shootIntoSpeaker;
 
@@ -98,16 +106,22 @@ public class RobotContainer {
         ampBarIn.addRequirements(ampBar);
         ampBarOut = new AmpBarOut(ampBar, shooter);
         ampBarOut.addRequirements(ampBar);
-        climbersDown = new ClimbersDown(climbers);
-        climbersDown.addRequirements(climbers);
-        climbersUp = new ClimbersUp(climbers);
-        climbersUp.addRequirements(climbers);
+        leftClimberDown = new LeftClimberDown(leftClimber);
+        leftClimberDown.addRequirements(leftClimber);
+        leftClimberUp = new LeftClimberUp(leftClimber);
+        leftClimberUp.addRequirements(leftClimber);
+        rightClimberDown = new RightClimberDown(rightClimber);
+        rightClimberDown.addRequirements(rightClimber);
+        rightClimberUp = new RightClimberUp(rightClimber);
+        rightClimberUp.addRequirements(rightClimber);
         intake = new Intake(groundIntake);
         intake.addRequirements(groundIntake);
         intakeDown = new IntakeDown(groundIntake);
         intakeDown.addRequirements(groundIntake);
         intakeUp = new IntakeUp(groundIntake);
         intakeUp.addRequirements(groundIntake);
+        ampAngle = new AmpAngle(groundIntake);
+        ampAngle.addRequirements(groundIntake);
         outtake = new Outtake(groundIntake);
         outtake.addRequirements(groundIntake);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
@@ -146,7 +160,7 @@ public class RobotContainer {
         
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
-
+/* 
         SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
             Pose2d currentPose = s_Swerve.getPose();
 
@@ -163,6 +177,7 @@ public class RobotContainer {
 
             AutoBuilder.followPath(path).schedule();
         }));
+        */
     }
 
     /**
@@ -173,20 +188,20 @@ public class RobotContainer {
      */
     private void configureButtonBindings() { 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        /* 
-        DLB.whileTrue(climbersUp);
-        DRB.whileTrue(climbersDown);
-
+        
+        DLB.whileTrue(leftClimberDown);
+        DLT.whileTrue(leftClimberUp);
+        DRB.whileTrue(rightClimberDown);
+        DRT.whileTrue(rightClimberUp);
         // Operator Buttons 
         ALT.whileTrue(shootIntoSpeaker);
         ALB.whileTrue(intake);
-        AX.onTrue(intakeUp);
-        AB.onTrue(intakeDown);
+        
         ARB.whileTrue(outtake);
         
-        */
-        AY.onTrue(ampBarOut);
-        AA.onTrue(ampBarIn);
+        AX.onTrue(ampAngle);
+        AY.onTrue(intakeUp);
+        AA.onTrue(intakeDown);
       }
 
     /**

@@ -4,9 +4,11 @@ import frc.robot.Constants;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +22,7 @@ public class GroundIntake extends SubsystemBase {
   private static CANSparkMax intakePivotFollower;
   private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
+  private static RelativeEncoder relEnc;
 
   public GroundIntake() {
     intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
@@ -39,10 +42,21 @@ public class GroundIntake extends SubsystemBase {
       Constants.GroundIntake.i, 
       Constants.GroundIntake.d);
 
+
+      controller.setTolerance(.05);
+
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-    controller.setTolerance(.05);
+    relEnc = intakePivot.getEncoder();
+    relEnc.setPosition(sparkencoder.getPosition() *60);
+
+    
+    intakePivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+    intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)(( Constants.AmpBar.deployAngle+10) /6));
+    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.AmpBar.retractAngle-10) /6));
   }
+  
 
   public void intake(double speed){
     intakeMotor.set(speed);
@@ -53,7 +67,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void setRotation (double angle){
-    intakePivot.set(controller.calculate(sparkencoder.getPosition(), angle));
+    intakePivot.set(controller.calculate(relEnc.getPosition()/60, angle));
   }
 
   public void manualRotate(double speed){
@@ -61,11 +75,15 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void deploy(){
-    setRotation(Constants.GroundIntake.deployAngle);
+    setRotation(Constants.GroundIntake.deployAngle/360);
   }
 
   public void retract(){
-    setRotation(Constants.GroundIntake.retractAngle);
+    setRotation(Constants.GroundIntake.retractAngle/360);
+  }
+
+  public void ampPosition(){
+    setRotation(Constants.GroundIntake.ampAngle/360);
   }
 
   public boolean pivotIsFinished(){
