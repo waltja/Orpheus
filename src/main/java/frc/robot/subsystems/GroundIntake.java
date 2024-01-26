@@ -26,7 +26,7 @@ public class GroundIntake extends SubsystemBase {
 
   public GroundIntake() {
     intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
-    intakeMotor.setNeutralMode(NeutralModeValue.Coast);
+    intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     intakeMotor.setSafetyEnabled(true);
 
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
