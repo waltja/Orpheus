@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0,
-      "y": 7.0
+      "x": 1.3171869760109631,
+      "y": 6.456421738466253
     },
-    "rotation": 180.0
+    "rotation": -145.0
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "zero gyro"
+            "name": "SpeakerShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Leave zone backward"
+            "pathName": "Left Leave Zone"
           }
         }
       ]

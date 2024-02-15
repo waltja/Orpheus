@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.autos.AutoSpeakerShoot;
 import frc.robot.commands.AmpBar.*;
 import frc.robot.commands.Climbers.*;
 import frc.robot.commands.Intake.*;
@@ -74,6 +74,7 @@ public class RobotContainer {
     private final AmpAngle ampAngle;
     private final Outtake outtake;
     private final ShootIntoSpeaker shootIntoSpeaker;
+    private final AutoSpeakerShoot autoSpeakerShoot;
 
 
     private final SendableChooser<Command> autoChooser;
@@ -126,6 +127,8 @@ public class RobotContainer {
         outtake.addRequirements(groundIntake);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
+        autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
+        autoSpeakerShoot.addRequirements(shooter, groundIntake);
 
          // Declare Driver Controller Buttons
          DA = new JoystickButton(baseDriver, 1);
@@ -153,6 +156,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake", intake);
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
+        NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
 
 
         // Configure the button bindings
@@ -188,7 +192,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() { 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        
+       /*  
         DLB.whileTrue(leftClimberDown);
         DLT.whileTrue(leftClimberUp);
         DRB.whileTrue(rightClimberDown);
@@ -202,6 +206,7 @@ public class RobotContainer {
         AX.onTrue(ampAngle);
         AY.onTrue(intakeUp);
         AA.onTrue(intakeDown);
+        */
       }
 
     /**
@@ -212,6 +217,5 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return autoChooser.getSelected();
-       //return new PathPlannerAuto("Leave Zone");
     }
 }

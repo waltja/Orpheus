@@ -2,25 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3171869760109631,
-      "y": 6.456421738466253
+      "x": 0.82,
+      "y": 4.28
     },
-    "rotation": -145.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "zero gyro"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Leave zone backward"
+            "pathName": "Right Leave Zone"
           }
         }
       ]
