@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,8 @@ public class Climbers extends SubsystemBase {
   public Climbers() {
     climberPullR = new TalonFX(Constants.Climbers.CLIMBER_MOTOR_PULL_R);
     climberPullL = new TalonFX(Constants.Climbers.CLIMBER_MOTOR_PULL_L);
+    climberPullL.setNeutralMode(NeutralModeValue.Brake);
+    climberPullR.setNeutralMode(NeutralModeValue.Brake);
 
     climberPullL.setControl(new Follower(climberPullR.getDeviceID(), false));
     

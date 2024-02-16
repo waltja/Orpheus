@@ -20,7 +20,7 @@ public class RightClimberDown extends Command {
   public void initialize() {}
   @Override
   public void execute() {
-    climber.climberMove(-1); // change value
+    climber.climberMove(.5); // change value
   }
   @Override
   public void end(boolean interrupted) {

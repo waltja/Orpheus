@@ -40,7 +40,7 @@ public class RobotContainer {
     JoystickButton AA, AB, AX, AY, ALB, ARB, ALT, ART, AM1, AM2;
 
     /* Controllers */
-    private final XboxController baseDriver = new XboxController(0);
+    private final CommandXboxController baseDriver = new CommandXboxController(0);
     private final CommandXboxController armDriver = new CommandXboxController(1);
 
     /* Drive Controls */
@@ -49,8 +49,8 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(baseDriver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
+    //private final JoystickButton zeroGyro = new JoystickButton(baseDriver, XboxController.Button.kY.value);
+    //private final JoystickButton robotCentric = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -89,7 +89,7 @@ public class RobotContainer {
                 () -> -baseDriver.getRawAxis(translationAxis), 
                 () -> -baseDriver.getRawAxis(strafeAxis), 
                 () -> -baseDriver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
+                () -> baseDriver.leftBumper().getAsBoolean()
             )
         );
 
@@ -130,32 +130,6 @@ public class RobotContainer {
         shootIntoSpeaker.addRequirements(shooter);
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
-
-         // Declare Driver Controller Buttons
-         DA = new JoystickButton(baseDriver, 1);
-         DB = new JoystickButton(baseDriver, 2);
-         DX = new JoystickButton(baseDriver, 3);
-         DY = new JoystickButton(baseDriver, 4);
-         DLB = new JoystickButton(baseDriver, 5);
-         DRB = new JoystickButton(baseDriver, 6);
-         DM1 = new JoystickButton(baseDriver, 7);
-         DM2 = new JoystickButton(baseDriver, 8);
-         DLT = new JoystickButton(baseDriver, 2);
-         DRT = new JoystickButton(baseDriver, 3);
- 
-         // Declare Arm Controller Buttons
-         /* 
-         AA = new JoystickButton(armDriver, 1);
-         AB = new JoystickButton(armDriver, 2);
-         AX = new JoystickButton(armDriver, 3);
-         AY = new JoystickButton(armDriver, 4);
-         ALB = new JoystickButton(armDriver, 5);
-         ARB = new JoystickButton(armDriver, 6);
-         AM1 = new JoystickButton(armDriver, 8);
-         AM2 = new JoystickButton(armDriver, 10);
-         ALT = new JoystickButton(armDriver, 2);
-         ART = new JoystickButton(armDriver, 3);
-         */
 
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);
         NamedCommands.registerCommand("intake down", intakeDown);
@@ -198,12 +172,12 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() { 
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        baseDriver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
          
-        DLB.whileTrue(leftClimberDown);
-        DLT.whileTrue(leftClimberUp);
-        DRB.whileTrue(rightClimberDown);
-        DRT.whileTrue(rightClimberUp);
+        baseDriver.leftBumper().whileTrue(leftClimberDown);
+        baseDriver.leftTrigger(0.25).whileTrue(leftClimberUp);
+        baseDriver.rightBumper().whileTrue(rightClimberDown);
+        baseDriver.rightTrigger(0.25).whileTrue(rightClimberUp);
         
         // Operator Buttons 
         armDriver.leftTrigger(0.5).whileTrue(new ShootIntoSpeaker(shooter));
@@ -214,15 +188,6 @@ public class RobotContainer {
         armDriver.y().onTrue(intakeDown);
         armDriver.b().onTrue(ampAngle);
         armDriver.x().onTrue(intakeUp);
-        /* 
-        ALB.whileTrue(intake);
-        
-        ARB.whileTrue(outtake);
-        
-        AX.onTrue(ampAngle);
-        AY.onTrue(intakeUp);
-        AA.onTrue(intakeDown);
-        */
       }
 
     /**
