@@ -210,6 +210,10 @@ public class RobotContainer {
 
         armDriver.rightTrigger(.5).whileTrue(intake);
         armDriver.rightBumper().whileTrue(outtake);
+
+        armDriver.y().onTrue(intakeDown);
+        armDriver.b().onTrue(ampAngle);
+        armDriver.x().onTrue(intakeUp);
         /* 
         ALB.whileTrue(intake);
         

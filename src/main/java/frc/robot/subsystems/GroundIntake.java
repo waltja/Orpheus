@@ -51,10 +51,10 @@ public class GroundIntake extends SubsystemBase {
     relEnc.setPosition(sparkencoder.getPosition() *60);
 
     
-    intakePivot.enableSoftLimit(SoftLimitDirection.kForward, false);
-    intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, false);
-    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)(( Constants.AmpBar.deployAngle+10) /6));
-    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.AmpBar.retractAngle-10) /6));
+    intakePivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+    intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.deployAngle) /6));
+    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.retractAngle) /6));
   }
   
 
@@ -71,7 +71,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void manualRotate(double speed){
-    intakePivot.set(-speed);
+    intakePivot.set(speed);
   }
 
   public void deploy(){
@@ -96,6 +96,6 @@ public class GroundIntake extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Ground Intake Motor Position", sparkencoder.getPosition());
+    SmartDashboard.putNumber("Ground Intake Motor Position", relEnc.getPosition() *6);
   }
 }
