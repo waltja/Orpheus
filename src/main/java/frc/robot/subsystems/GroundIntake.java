@@ -26,7 +26,7 @@ public class GroundIntake extends SubsystemBase {
 
   public GroundIntake() {
     intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
-    intakeMotor.setNeutralMode(NeutralModeValue.Brake);
+    intakeMotor.setNeutralMode(NeutralModeValue.Coast);
     intakeMotor.setSafetyEnabled(true);
 
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
@@ -51,8 +51,8 @@ public class GroundIntake extends SubsystemBase {
     relEnc.setPosition(sparkencoder.getPosition() *60);
 
     
-    intakePivot.enableSoftLimit(SoftLimitDirection.kForward, true);
-    intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    intakePivot.enableSoftLimit(SoftLimitDirection.kForward, false);
+    intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, false);
     intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)(( Constants.AmpBar.deployAngle+10) /6));
     intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.AmpBar.retractAngle-10) /6));
   }
@@ -71,7 +71,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void manualRotate(double speed){
-    intakePivot.set(speed);
+    intakePivot.set(-speed);
   }
 
   public void deploy(){

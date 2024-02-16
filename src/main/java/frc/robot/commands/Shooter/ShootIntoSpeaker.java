@@ -14,7 +14,7 @@ public class ShootIntoSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterSpeed(1.00);
+    shooter.setShooterSpeed(1.0);
   }
   // Called once the command ends or is interrupted.
   @Override

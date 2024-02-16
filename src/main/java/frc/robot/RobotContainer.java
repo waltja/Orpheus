@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.AutoSpeakerShoot;
 import frc.robot.commands.AmpBar.*;
@@ -40,7 +41,7 @@ public class RobotContainer {
 
     /* Controllers */
     private final XboxController baseDriver = new XboxController(0);
-    private final XboxController armDriver = new XboxController(1);
+    private final CommandXboxController armDriver = new CommandXboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -95,7 +96,7 @@ public class RobotContainer {
         groundIntake.setDefaultCommand(
             new ManualPivotIntake(
                 groundIntake, 
-                () -> armDriver.getRawAxis(translationAxis)));
+               () -> armDriver.getRawAxis(translationAxis)));
         
         ampBar.setDefaultCommand(
             new ManualAmpBar(
@@ -139,8 +140,11 @@ public class RobotContainer {
          DRB = new JoystickButton(baseDriver, 6);
          DM1 = new JoystickButton(baseDriver, 7);
          DM2 = new JoystickButton(baseDriver, 8);
+         DLT = new JoystickButton(baseDriver, 2);
+         DRT = new JoystickButton(baseDriver, 3);
  
          // Declare Arm Controller Buttons
+         /* 
          AA = new JoystickButton(armDriver, 1);
          AB = new JoystickButton(armDriver, 2);
          AX = new JoystickButton(armDriver, 3);
@@ -149,6 +153,9 @@ public class RobotContainer {
          ARB = new JoystickButton(armDriver, 6);
          AM1 = new JoystickButton(armDriver, 8);
          AM2 = new JoystickButton(armDriver, 10);
+         ALT = new JoystickButton(armDriver, 2);
+         ART = new JoystickButton(armDriver, 3);
+         */
 
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);
         NamedCommands.registerCommand("intake down", intakeDown);
@@ -192,13 +199,18 @@ public class RobotContainer {
      */
     private void configureButtonBindings() { 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-       /*  
+         
         DLB.whileTrue(leftClimberDown);
         DLT.whileTrue(leftClimberUp);
         DRB.whileTrue(rightClimberDown);
         DRT.whileTrue(rightClimberUp);
+        
         // Operator Buttons 
-        ALT.whileTrue(shootIntoSpeaker);
+        armDriver.leftTrigger(0.5).whileTrue(new ShootIntoSpeaker(shooter));
+
+        armDriver.rightTrigger(.5).whileTrue(intake);
+        armDriver.rightBumper().whileTrue(outtake);
+        /* 
         ALB.whileTrue(intake);
         
         ARB.whileTrue(outtake);
