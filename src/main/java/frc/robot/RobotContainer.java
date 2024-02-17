@@ -131,34 +131,6 @@ public class RobotContainer {
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
 
-         // Declare Driver Controller Buttons
-         /* 
-         DA = new JoystickButton(baseDriver, 1);
-         DB = new JoystickButton(baseDriver, 2);
-         DX = new JoystickButton(baseDriver, 3);
-         DY = new JoystickButton(baseDriver, 4);
-         DLB = new JoystickButton(baseDriver, 5);
-         DRB = new JoystickButton(baseDriver, 6);
-         DM1 = new JoystickButton(baseDriver, 7);
-         DM2 = new JoystickButton(baseDriver, 8);
-         DLT = new JoystickButton(baseDriver, 2);
-         DRT = new JoystickButton(baseDriver, 3);
-         */
- 
-         // Declare Arm Controller Buttons
-         /* 
-         AA = new JoystickButton(armDriver, 1);
-         AB = new JoystickButton(armDriver, 2);
-         AX = new JoystickButton(armDriver, 3);
-         AY = new JoystickButton(armDriver, 4);
-         ALB = new JoystickButton(armDriver, 5);
-         ARB = new JoystickButton(armDriver, 6);
-         AM1 = new JoystickButton(armDriver, 8);
-         AM2 = new JoystickButton(armDriver, 10);
-         ALT = new JoystickButton(armDriver, 2);
-         ART = new JoystickButton(armDriver, 3);
-         */
-
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);
         NamedCommands.registerCommand("intake down", intakeDown);
         NamedCommands.registerCommand("intakeUp", intakeUp);
