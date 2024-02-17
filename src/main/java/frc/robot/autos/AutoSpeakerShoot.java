@@ -40,14 +40,17 @@ public class AutoSpeakerShoot extends Command {
     shooter.setShooterSpeed(1.0);
 
     if(timer.get()> 1.0){
-        intake.outtake(1);
+        intake.outtake(.5);
     }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stop();
+    intake.stop();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -43,7 +43,7 @@ public class GroundIntake extends SubsystemBase {
       Constants.GroundIntake.d);
 
 
-      controller.setTolerance(.05);
+      controller.setTolerance(.01);
 
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
@@ -53,8 +53,8 @@ public class GroundIntake extends SubsystemBase {
     
     intakePivot.enableSoftLimit(SoftLimitDirection.kForward, true);
     intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.deployAngle) /6));
-    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.retractAngle) /6));
+    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.retractAngle) /6));
+    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.deployAngle) /6));
   }
   
 

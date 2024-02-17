@@ -146,12 +146,12 @@ public final class Constants {
     public static final class GroundIntake{
       public static final int INTAKE_MOTOR_ID = 14;
       public static final int INTAKE_PIVOT_ID = 15;
-      public static final double p = .1;
-      public static final double i = 0;
-      public static final double d = 0;
-      public static final double retractAngle = 252;
-      public static final double deployAngle = -183;
-      public static final double ampAngle = 100;
+      public static final double p = .7;
+      public static final double i = 0.02;
+      public static final double d = 0.01;
+      public static final double retractAngle = 254.0;
+      public static final double deployAngle = -182.5;
+      public static final double ampAngle = 90.73;
       public static final int Intake_PIVOT_FOLLOWER_ID = 16;
     }
 
