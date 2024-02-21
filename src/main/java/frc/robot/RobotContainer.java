@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.AutoSpeakerShoot;
-import frc.robot.commands.AmpBar.*;
 import frc.robot.commands.Climbers.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Shooter.*;
@@ -54,7 +53,6 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final AmpBar ampBar = new AmpBar();
     private final LeftClimber leftClimber = new LeftClimber();
     private final RightClimber rightClimber = new RightClimber();
     private final GroundIntake groundIntake = new GroundIntake();
@@ -63,8 +61,6 @@ public class RobotContainer {
 
 
     /* Commands */
-    private final AmpBarIn ampBarIn;
-    private final AmpBarOut ampBarOut;
     private final LeftClimberDown leftClimberDown;
     private final LeftClimberUp leftClimberUp;
     private final RightClimberDown rightClimberDown;
@@ -97,17 +93,7 @@ public class RobotContainer {
             new ManualPivotIntake(
                 groundIntake, 
                () -> armDriver.getRawAxis(translationAxis)));
-        
-        ampBar.setDefaultCommand(
-            new ManualAmpBar(
-                ampBar, 
-                () -> armDriver.getRawAxis(XboxController.Axis.kRightY.value))
-        );
-
-        ampBarIn = new AmpBarIn(ampBar, shooter);
-        ampBarIn.addRequirements(ampBar);
-        ampBarOut = new AmpBarOut(ampBar, shooter);
-        ampBarOut.addRequirements(ampBar);
+       
         leftClimberDown = new LeftClimberDown(leftClimber);
         leftClimberDown.addRequirements(leftClimber);
         leftClimberUp = new LeftClimberUp(leftClimber);
