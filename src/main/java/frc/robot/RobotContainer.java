@@ -70,6 +70,7 @@ public class RobotContainer {
     private final IntakeUp intakeUp;
     private final AmpAngle ampAngle;
     private final Outtake outtake;
+    private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
     private final AutoSpeakerShoot autoSpeakerShoot;
 
@@ -112,6 +113,8 @@ public class RobotContainer {
         ampAngle.addRequirements(groundIntake);
         outtake = new Outtake(groundIntake);
         outtake.addRequirements(groundIntake);
+        reverseShooter = new ReverseShooter(shooter);
+        reverseShooter.addRequirements(shooter);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
@@ -170,6 +173,7 @@ public class RobotContainer {
 
         armDriver.rightTrigger(.5).whileTrue(intake);
         armDriver.rightBumper().whileTrue(outtake);
+        armDriver.leftBumper().whileTrue(reverseShooter);
 
         armDriver.y().onTrue(intakeDown);
         armDriver.b().onTrue(ampAngle);
