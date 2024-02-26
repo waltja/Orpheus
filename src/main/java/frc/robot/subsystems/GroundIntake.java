@@ -23,7 +23,7 @@ public class GroundIntake extends SubsystemBase {
   private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
   private static RelativeEncoder relEnc;
-  private static boolean ampAngle;
+  private static boolean ampAngle = false;
 
   public GroundIntake() {
     intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
@@ -57,7 +57,7 @@ public class GroundIntake extends SubsystemBase {
     intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.retractAngle) /6));
     intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.deployAngle) /6));
 
-    ampAngle = false;
+    
   }
   
 

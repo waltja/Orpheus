@@ -70,8 +70,8 @@ public final class Constants {
         public static final double angleKI = chosenModule.angleKI;
         public static final double angleKD = chosenModule.angleKD;
 
-        /* Drive Motor PID Values */
-        public static final double driveKP = 10; //TODO: This must be tuned to specific robot
+        /* Drive Motor PID Values*/
+        public static final double driveKP = 1; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.01;
         public static final double driveKD = 0.01;
         public static final double driveKF = 0.0;
@@ -149,25 +149,16 @@ public final class Constants {
       public static final double p = 10 ;
       public static final double i = 0.02;
       public static final double d = 0.01;
-      public static final double retractAngle = 254.0;
-      public static final double deployAngle = -182.5;
-      public static final double ampAngle = 58.14198;
+      public static final double retractAngle = 0.0;
+      public static final double deployAngle = -441.31;
+      public static final double ampAngle = -200.0;
       public static final int Intake_PIVOT_FOLLOWER_ID = 16;
     }
 
-    public static final class AmpBar{
-      public static final int AMP_BAR_MOTOR_ID = 17;
-      public static final int AMP_BAR_CANANDCODER_ID = 0;
-      public static final double p = .7;
-      public static final double i = 0.01;
-      public static final double d = 0.1;
-      public static final double retractAngle = 90;
-      public static final double deployAngle = 270;
-    }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 1;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
