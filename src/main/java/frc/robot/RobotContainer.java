@@ -169,9 +169,9 @@ public class RobotContainer {
         baseDriver.rightTrigger(0.25).whileTrue(rightClimberUp);
         
         // Operator Buttons 
-        armDriver.leftTrigger(0.5).whileTrue(new ShootIntoSpeaker(shooter));
+        armDriver.leftTrigger(0.15).whileTrue(new ShootIntoSpeaker(shooter));
 
-        armDriver.rightTrigger(.5).whileTrue(intake);
+        armDriver.rightTrigger(.15).whileTrue(intake);
         armDriver.rightBumper().whileTrue(outtake);
         armDriver.leftBumper().whileTrue(reverseShooter);
 
