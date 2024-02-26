@@ -23,7 +23,7 @@ public class GroundIntake extends SubsystemBase {
   private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
   private static RelativeEncoder relEnc;
-  private static boolean ampAngle = false;
+
 
   public GroundIntake() {
     intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
@@ -37,8 +37,6 @@ public class GroundIntake extends SubsystemBase {
     intakePivot.setIdleMode(IdleMode.kBrake);
     intakePivotFollower.setIdleMode(IdleMode.kBrake);
     intakePivotFollower.follow(intakePivot, true);
-    intakePivot.burnFlash();
-    intakePivotFollower.burnFlash();
   
     controller = new PIDController(
       Constants.GroundIntake.p,
@@ -46,7 +44,7 @@ public class GroundIntake extends SubsystemBase {
       Constants.GroundIntake.d);
 
 
-      controller.setTolerance(.01);
+      controller.setTolerance(Constants.GroundIntake.tolerance);
 
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
@@ -76,31 +74,27 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void manualRotate(double speed){
-    ampAngle = false;
     intakePivot.set(speed);
   }
 
   public void deploy(){
-    ampAngle = false;
     setRotation(Constants.GroundIntake.deployAngle/360);
   }
 
   public void retract(){
-    ampAngle = false;
     setRotation(Constants.GroundIntake.retractAngle/360);
   }
 
   public void ampPosition(){
     setRotation(Constants.GroundIntake.ampAngle/360);
-    ampAngle = true;
   }
 
   public boolean pivotIsFinished(){
     return controller.atSetpoint();
   }
 
-  public boolean ampAngle(){
-    return ampAngle;
+  public boolean isAtAmpAngle(){
+    return Math.abs(controller.calculate(relEnc.getPosition()/6, Constants.GroundIntake.ampAngle)) < Constants.GroundIntake.tolerance;
   }
 
   public void stop(){

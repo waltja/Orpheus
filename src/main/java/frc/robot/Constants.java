@@ -146,7 +146,7 @@ public final class Constants {
     public static final class GroundIntake{
       public static final int INTAKE_MOTOR_ID = 14;
       public static final int INTAKE_PIVOT_ID = 15;
-      public static final double p = 5 ;
+      public static final double p = 5;
       public static final double i = 0.02;
       public static final double d = 0.01;
       public static final double tolerance = .01;

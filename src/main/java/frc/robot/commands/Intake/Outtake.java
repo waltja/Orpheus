@@ -22,7 +22,7 @@ public class Outtake extends Command {
 
   @Override
   public void execute() {
-    if(intake.ampAngle()){
+    if(intake.isAtAmpAngle()){
     intake.intake(.2); // change velocities later
   }
   else{
