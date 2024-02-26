@@ -37,6 +37,8 @@ public class GroundIntake extends SubsystemBase {
     intakePivot.setIdleMode(IdleMode.kBrake);
     intakePivotFollower.setIdleMode(IdleMode.kBrake);
     intakePivotFollower.follow(intakePivot, true);
+    intakePivot.burnFlash();
+    intakePivotFollower.burnFlash();
   
     controller = new PIDController(
       Constants.GroundIntake.p,
