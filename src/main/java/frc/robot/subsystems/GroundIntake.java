@@ -94,7 +94,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public boolean isAtAmpAngle(){
-    return Math.abs(controller.calculate(relEnc.getPosition()/6, Constants.GroundIntake.ampAngle)) < Constants.GroundIntake.tolerance;
+    return Math.abs(controller.calculate(relEnc.getPosition()/60, Constants.GroundIntake.ampAngle/360)) < Constants.GroundIntake.tolerance;
   }
 
   public void stop(){
