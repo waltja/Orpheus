@@ -20,17 +20,19 @@ public class Shooter extends SubsystemBase {
         ShooterMotorRight.restoreFactoryDefaults();
         ShooterMotorLeft.setIdleMode(IdleMode.kCoast);
         ShooterMotorRight.setIdleMode(IdleMode.kCoast);
-        ShooterMotorLeft.follow(ShooterMotorRight, true);
+       ShooterMotorLeft.follow(ShooterMotorRight, true);
 
     }
     public void setShooterSpeed(Double Speed) {
 
         ShooterMotorRight.set(Speed);
+       
 
     }
     public void stop() {
 
         ShooterMotorRight.stopMotor();
+        
 
     }
   @Override
