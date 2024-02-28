@@ -23,6 +23,7 @@ public class GroundIntake extends SubsystemBase {
   private static PIDController controller;
   private static SparkAbsoluteEncoder sparkencoder;
   private static RelativeEncoder relEnc;
+  private static boolean ampAngle = false;
 
 
   public GroundIntake() {
@@ -56,7 +57,6 @@ public class GroundIntake extends SubsystemBase {
     intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
     intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.retractAngle) /6));
     intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.deployAngle) /6));
-
     
   }
   
@@ -74,19 +74,24 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void manualRotate(double speed){
+
     intakePivot.set(speed);
   }
 
   public void deploy(){
+    ampAngle = false;
     setRotation(Constants.GroundIntake.deployAngle/360);
   }
 
   public void retract(){
+    ampAngle = false;
     setRotation(Constants.GroundIntake.retractAngle/360);
   }
 
   public void ampPosition(){
+    ampAngle = true;
     setRotation(Constants.GroundIntake.ampAngle/360);
+    
   }
 
   public boolean pivotIsFinished(){
@@ -94,7 +99,11 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public boolean isAtAmpAngle(){
-    return Math.abs(controller.calculate(relEnc.getPosition()/60, Constants.GroundIntake.ampAngle/360)) < Constants.GroundIntake.tolerance;
+    return ampAngle;
+  }
+
+  public void stopPivot(){
+    intakePivot.stopMotor();
   }
 
   public void stop(){
@@ -104,5 +113,6 @@ public class GroundIntake extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Ground Intake Motor Position", relEnc.getPosition() *6);
+    SmartDashboard.putBoolean("amp angle", ampAngle);
   }
 }
