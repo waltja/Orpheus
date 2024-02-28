@@ -150,9 +150,9 @@ public final class Constants {
       public static final double i = 0.02;
       public static final double d = 0.01;
       public static final double tolerance = .01;
-      public static final double retractAngle =108.046;
-      public static final double deployAngle = -319.2925;
-      public static final double ampAngle = -85.806;
+      public static final double retractAngle =20.0;
+      public static final double deployAngle = -414.143;
+      public static final double ampAngle = -200;
       public static final int Intake_PIVOT_FOLLOWER_ID = 16;
     }
 
