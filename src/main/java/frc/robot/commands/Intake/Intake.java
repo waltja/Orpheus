@@ -24,7 +24,7 @@ public class Intake extends Command {
   @Override
   public void execute() {
 
-    intake.intake(-.5);
+    intake.intake(-.7);
 
   }
 

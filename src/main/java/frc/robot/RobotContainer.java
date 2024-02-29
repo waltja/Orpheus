@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.autos.AutoIntake;
 import frc.robot.autos.AutoSpeakerShoot;
 import frc.robot.commands.Climbers.*;
 import frc.robot.commands.Intake.*;
@@ -61,6 +62,8 @@ public class RobotContainer {
     private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
     private final AutoSpeakerShoot autoSpeakerShoot;
+    private final ManualPivotIntake manualPivotIntake;
+    private final AutoIntake autoIntake;
 
 
     private final SendableChooser<Command> autoChooser;
@@ -78,11 +81,12 @@ public class RobotContainer {
             )
         );
 
-        groundIntake.setDefaultCommand(
+        /*groundIntake.setDefaultCommand(
             new ManualPivotIntake(
                 groundIntake, 
                () -> armDriver.getRawAxis(translationAxis)));
-       
+               */
+    
         leftClimberDown = new LeftClimberDown(leftClimber);
         leftClimberDown.addRequirements(leftClimber);
         leftClimberUp = new LeftClimberUp(leftClimber);
@@ -107,11 +111,15 @@ public class RobotContainer {
         shootIntoSpeaker.addRequirements(shooter);
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
+        manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
+        manualPivotIntake.addRequirements(groundIntake);
+        autoIntake = new AutoIntake(groundIntake);
+        autoIntake.addRequirements(groundIntake);
 
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);
         NamedCommands.registerCommand("intake down", intakeDown);
-        NamedCommands.registerCommand("intakeUp", intakeUp);
-        NamedCommands.registerCommand("intake", intake);
+        NamedCommands.registerCommand("intake up", intakeUp);
+        NamedCommands.registerCommand("intake", autoIntake);
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
         NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
@@ -167,6 +175,8 @@ public class RobotContainer {
         armDriver.b().onTrue(ampAngle);
         armDriver.a().onTrue(intakeUp);
        
+        armDriver.axisGreaterThan(translationAxis, .1).whileTrue(manualPivotIntake);
+        armDriver.axisLessThan(translationAxis, -.1).whileTrue(manualPivotIntake);
       }
 
     /**

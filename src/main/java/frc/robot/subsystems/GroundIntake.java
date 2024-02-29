@@ -74,7 +74,7 @@ public class GroundIntake extends SubsystemBase {
   }
 
   public void manualRotate(double speed){
-
+    ampAngle = false;
     intakePivot.set(speed);
   }
 
