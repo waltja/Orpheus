@@ -18,15 +18,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "intake down"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake down"
-                }
-              },
               {
                 "type": "path",
                 "data": {
@@ -94,25 +94,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "find second note"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intake"
-                      }
-                    }
-                  ]
                 }
               }
             ]
