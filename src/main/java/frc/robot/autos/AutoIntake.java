@@ -8,7 +8,7 @@ import frc.robot.subsystems.GroundIntake;
 import frc.robot.subsystems.Shooter;
 
 public class AutoIntake extends Command {
-  private Shooter shooter;
+  
   private GroundIntake intake;
   private Timer timer;
   public AutoIntake(GroundIntake intake) {
