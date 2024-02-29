@@ -39,7 +39,7 @@ public class AutoSpeakerShoot extends Command {
 
     shooter.setShooterSpeed(1.0);
 
-    if(timer.get()> 1.0){
+    if(timer.get()> .9){
         intake.outtake(.6);
     }
 
@@ -55,6 +55,6 @@ public class AutoSpeakerShoot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > 1.2;
+    return timer.get() > 1.1;
   }
 }
