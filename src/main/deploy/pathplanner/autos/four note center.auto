@@ -22,15 +22,22 @@
                 }
               },
               {
-                "type": "wait",
+                "type": "sequential",
                 "data": {
-                  "waitTime": 0.9
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "outtake"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.9
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "outtake"
+                      }
+                    }
+                  ]
                 }
               }
             ]
