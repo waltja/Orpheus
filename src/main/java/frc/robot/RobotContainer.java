@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -13,8 +14,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoIntake;
-import frc.robot.autos.AutoSpeakerShoot;
+import frc.robot.autos.AutoOuttake;
+import frc.robot.autos.AutoShooterRoll;
+import frc.robot.autos.AutoShooterStop;
 import frc.robot.commands.Climbers.*;
+import frc.robot.autos.AutoSpeakerShoot;
+
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Swerve.*;
@@ -62,9 +67,13 @@ public class RobotContainer {
     private final Outtake outtake;
     private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
-    private final AutoSpeakerShoot autoSpeakerShoot;
+    private final AutoShooterRoll autoShooterRoll;
     private final ManualPivotIntake manualPivotIntake;
     private final AutoIntake autoIntake;
+    private final AutoOuttake autoOuttake;
+    private final AutoShooterStop autoShooterstop;
+    private final AutoSpeakerShoot autoSpeakerShoot;
+
 
 
     private final SendableChooser<Command> autoChooser;
@@ -111,12 +120,19 @@ public class RobotContainer {
         reverseShooter.addRequirements(shooter);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
-        autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
-        autoSpeakerShoot.addRequirements(shooter, groundIntake);
-manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
+        autoShooterRoll = new AutoShooterRoll(shooter);
+        autoShooterRoll.addRequirements(shooter, groundIntake);
+        manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
         manualPivotIntake.addRequirements(groundIntake);
         autoIntake = new AutoIntake(groundIntake);
         autoIntake.addRequirements(groundIntake);
+        autoOuttake = new AutoOuttake(groundIntake);
+        autoOuttake.addRequirements(groundIntake);
+        autoShooterstop = new AutoShooterStop(shooter);
+        autoShooterstop.addRequirements(shooter);
+        autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
+        autoSpeakerShoot.addRequirements(shooter, groundIntake);
+
 
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);
         NamedCommands.registerCommand("intake down", intakeDown);
@@ -124,7 +140,11 @@ manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAx
         NamedCommands.registerCommand("intake", autoIntake);
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
+        NamedCommands.registerCommand("shooter roll", autoShooterRoll);
+        NamedCommands.registerCommand("outtake", autoOuttake);
+        NamedCommands.registerCommand("shooter stop", autoShooterstop);
         NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
+
 
 
         // Configure the button bindings
