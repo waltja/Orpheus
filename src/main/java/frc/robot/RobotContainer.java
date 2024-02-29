@@ -4,6 +4,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -71,6 +72,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        CameraServer.startAutomaticCapture();
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -85,8 +87,8 @@ public class RobotContainer {
             new ManualPivotIntake(
                 groundIntake, 
                () -> armDriver.getRawAxis(translationAxis)));
-               */
-    
+*/
+       
         leftClimberDown = new LeftClimberDown(leftClimber);
         leftClimberDown.addRequirements(leftClimber);
         leftClimberUp = new LeftClimberUp(leftClimber);
@@ -111,7 +113,7 @@ public class RobotContainer {
         shootIntoSpeaker.addRequirements(shooter);
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
-        manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
+manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
         manualPivotIntake.addRequirements(groundIntake);
         autoIntake = new AutoIntake(groundIntake);
         autoIntake.addRequirements(groundIntake);
@@ -175,7 +177,7 @@ public class RobotContainer {
         armDriver.b().onTrue(ampAngle);
         armDriver.a().onTrue(intakeUp);
        
-        armDriver.axisGreaterThan(translationAxis, .1).whileTrue(manualPivotIntake);
+armDriver.axisGreaterThan(translationAxis, .1).whileTrue(manualPivotIntake);
         armDriver.axisLessThan(translationAxis, -.1).whileTrue(manualPivotIntake);
       }
 
