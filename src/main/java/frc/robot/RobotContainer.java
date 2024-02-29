@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoIntake;
 import frc.robot.autos.AutoOuttake;
-import frc.robot.autos.AutoShooterRoll;
-import frc.robot.autos.AutoShooterStop;
 import frc.robot.commands.Climbers.*;
 import frc.robot.autos.AutoSpeakerShoot;
 
@@ -67,11 +65,9 @@ public class RobotContainer {
     private final Outtake outtake;
     private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
-    private final AutoShooterRoll autoShooterRoll;
     private final ManualPivotIntake manualPivotIntake;
     private final AutoIntake autoIntake;
     private final AutoOuttake autoOuttake;
-    private final AutoShooterStop autoShooterstop;
     private final AutoSpeakerShoot autoSpeakerShoot;
 
 
@@ -120,16 +116,12 @@ public class RobotContainer {
         reverseShooter.addRequirements(shooter);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
-        autoShooterRoll = new AutoShooterRoll(shooter);
-        autoShooterRoll.addRequirements(shooter, groundIntake);
         manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
         manualPivotIntake.addRequirements(groundIntake);
         autoIntake = new AutoIntake(groundIntake);
         autoIntake.addRequirements(groundIntake);
         autoOuttake = new AutoOuttake(groundIntake);
         autoOuttake.addRequirements(groundIntake);
-        autoShooterstop = new AutoShooterStop(shooter);
-        autoShooterstop.addRequirements(shooter);
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
 
@@ -140,9 +132,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake", autoIntake);
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
-        NamedCommands.registerCommand("shooter roll", autoShooterRoll);
         NamedCommands.registerCommand("outtake", autoOuttake);
-        NamedCommands.registerCommand("shooter stop", autoShooterstop);
         NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
 
 
