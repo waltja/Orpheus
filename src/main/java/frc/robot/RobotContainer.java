@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoIntake;
-import frc.robot.autos.AutoOuttake;
 
 import frc.robot.commands.Climbers.*;
 import frc.robot.autos.AutoSpeakerShoot;
@@ -69,8 +68,7 @@ public class RobotContainer {
    
     private final ManualPivotIntake manualPivotIntake;
     private final AutoIntake autoIntake;
-    private final AutoOuttake autoOuttake;
-   
+  
     private final AutoSpeakerShoot autoSpeakerShoot;
 
 
@@ -124,8 +122,7 @@ public class RobotContainer {
         manualPivotIntake.addRequirements(groundIntake);
         autoIntake = new AutoIntake(groundIntake);
         autoIntake.addRequirements(groundIntake);
-        autoOuttake = new AutoOuttake(groundIntake);
-        autoOuttake.addRequirements(groundIntake);
+        
         
         autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
         autoSpeakerShoot.addRequirements(shooter, groundIntake);
@@ -138,7 +135,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
         
-        NamedCommands.registerCommand("outtake", autoOuttake);
+      
        
         NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
 
@@ -149,6 +146,7 @@ public class RobotContainer {
         
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+      
 /* 
         SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
             Pose2d currentPose = s_Swerve.getPose();
