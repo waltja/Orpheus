@@ -12,7 +12,7 @@ public class LeftClimberDown extends Command {
   public void initialize() {}
   @Override
   public void execute() {
-    climber.climberMove(-.5);
+    climber.climberMove(-1);
   }
   @Override
   public void end(boolean interrupted) {
