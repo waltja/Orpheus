@@ -38,7 +38,8 @@ public class AutoSpeakerShoot extends Command {
   @Override
   public void execute() {
 
-    shooter.setShooterSpeed(1.0);
+    shooter.setShooterLSpeed(1.0);
+    shooter.setShooterRSpeed(1.0);
 
     if(timer.get()> .9){
         intake.outtake(.6);
@@ -49,7 +50,8 @@ public class AutoSpeakerShoot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+    shooter.stopL();
+    shooter.stopR();
     intake.stop();
   }
 

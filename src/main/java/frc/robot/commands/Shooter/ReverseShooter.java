@@ -14,12 +14,14 @@ public class ReverseShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterSpeed(-1.0);
+    shooter.setShooterRSpeed(-1.0);
+    shooter.setShooterLSpeed(-1.0);
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+    shooter.stopR();
+    shooter.stopL();
   }
   // Returns true when the command should end.
   @Override
