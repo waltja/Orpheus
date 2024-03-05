@@ -47,8 +47,9 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final LeftClimber leftClimber = new LeftClimber();
     private final RightClimber rightClimber = new RightClimber();
-    private final GroundIntake groundIntake = new GroundIntake();
+    private final IntakePivot intakePivot = new IntakePivot();
     private final Shooter shooter = new Shooter();
+    private final IntakeRollers intakeRollers = new IntakeRollers();
   
 
 
@@ -100,26 +101,26 @@ public class RobotContainer {
         rightClimberDown.addRequirements(rightClimber);
         rightClimberUp = new RightClimberUp(rightClimber);
         rightClimberUp.addRequirements(rightClimber);
-        intake = new Intake(groundIntake);
-        intake.addRequirements(groundIntake);
-        intakeDown = new IntakeDown(groundIntake);
-        intakeDown.addRequirements(groundIntake);
-        intakeUp = new IntakeUp(groundIntake);
-        intakeUp.addRequirements(groundIntake);
-        ampAngle = new AmpAngle(groundIntake);
-        ampAngle.addRequirements(groundIntake);
-        outtake = new Outtake(groundIntake);
-        outtake.addRequirements(groundIntake);
+        intake = new Intake(intakeRollers);
+        intake.addRequirements(intakeRollers);
+        intakeDown = new IntakeDown(intakePivot);
+        intakeDown.addRequirements(intakePivot);
+        intakeUp = new IntakeUp(intakePivot);
+        intakeUp.addRequirements(intakePivot);
+        ampAngle = new AmpAngle(intakePivot);
+        ampAngle.addRequirements(intakePivot);
+        outtake = new Outtake(intakeRollers, intakePivot);
+        outtake.addRequirements(intakeRollers, intakePivot);
         reverseShooter = new ReverseShooter(shooter);
         reverseShooter.addRequirements(shooter);
         shootIntoSpeaker = new ShootIntoSpeaker(shooter);
         shootIntoSpeaker.addRequirements(shooter);
-        manualPivotIntake = new ManualPivotIntake(groundIntake, () -> armDriver.getRawAxis(translationAxis));
-        manualPivotIntake.addRequirements(groundIntake);
-        autoIntake = new AutoIntake(groundIntake);
-        autoIntake.addRequirements(groundIntake);
-        autoSpeakerShoot = new AutoSpeakerShoot(shooter, groundIntake);
-        autoSpeakerShoot.addRequirements(shooter, groundIntake);
+        manualPivotIntake = new ManualPivotIntake(intakePivot, () -> armDriver.getRawAxis(translationAxis));
+        manualPivotIntake.addRequirements(intakePivot);
+        autoIntake = new AutoIntake(intakeRollers);
+        autoIntake.addRequirements(intakeRollers);
+        autoSpeakerShoot = new AutoSpeakerShoot(shooter, intakeRollers);
+        autoSpeakerShoot.addRequirements(shooter, intakeRollers);
 
 
         NamedCommands.registerCommand("shoot", shootIntoSpeaker);

@@ -9,13 +9,13 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.GroundIntake;
+import frc.robot.subsystems.IntakePivot;
 
 public class ManualPivotIntake extends Command {
-  private GroundIntake intake;
+  private IntakePivot intake;
   private DoubleSupplier ySup;
   /** Creates a new ManualPivotIntake. */
-  public ManualPivotIntake(GroundIntake intake, DoubleSupplier ySup) {
+  public ManualPivotIntake(IntakePivot intake, DoubleSupplier ySup) {
     this.intake = intake;
     this.ySup = ySup;
     addRequirements(intake);

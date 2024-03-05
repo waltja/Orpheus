@@ -14,9 +14,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class GroundIntake extends SubsystemBase {
+public class IntakePivot extends SubsystemBase {
   /** Creates a new GroundIntake. */
-  private static TalonFX intakeMotor;
+ 
 
   private static CANSparkMax intakePivot;
   private static CANSparkMax intakePivotFollower;
@@ -26,10 +26,8 @@ public class GroundIntake extends SubsystemBase {
   private static boolean ampAngle = false;
 
 
-  public GroundIntake() {
-    intakeMotor = new TalonFX(Constants.GroundIntake.INTAKE_MOTOR_ID);
-    intakeMotor.setNeutralMode(NeutralModeValue.Coast);
-    intakeMotor.setSafetyEnabled(true);
+  public IntakePivot() {
+    
 
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
     intakePivotFollower = new CANSparkMax(Constants.GroundIntake.Intake_PIVOT_FOLLOWER_ID, MotorType.kBrushless);
@@ -61,13 +59,7 @@ public class GroundIntake extends SubsystemBase {
   }
   
 
-  public void intake(double speed){
-    intakeMotor.set(speed);
-  }
   
-  public void outtake(double speed){
-    intakeMotor.set(speed);
-  }
 
   public void setRotation (double angle){
     intakePivot.set(controller.calculate(relEnc.getPosition()/60, angle));
@@ -106,10 +98,7 @@ public class GroundIntake extends SubsystemBase {
     intakePivot.stopMotor();
   }
 
-  public void stop(){
-
-    intakeMotor.stopMotor();
-  }
+  
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Ground Intake Motor Position", relEnc.getPosition() *6);

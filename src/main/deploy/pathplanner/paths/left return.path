@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.34,
-        "y": 5.83
+        "x": 3.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2565872860895184,
-        "y": 4.9787958865760835
+        "x": 1.5092705990502029,
+        "y": 6.870506094437874
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Right behind taxi line"
     },
     {
       "anchor": {
-        "x": 2.3424426039603525,
-        "y": 4.12513604548266
+        "x": 0.7,
+        "y": 6.7
       },
       "prevControl": {
-        "x": 1.3424426039603525,
-        "y": 4.12513604548266
+        "x": 2.062442176078741,
+        "y": 6.918311045539105
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,14 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -123.05841598928423,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 179.96728273671914,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

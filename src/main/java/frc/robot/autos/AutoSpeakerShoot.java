@@ -8,14 +8,15 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.GroundIntake;
+
+import frc.robot.subsystems.IntakeRollers;
 import frc.robot.subsystems.Shooter;
 
 public class AutoSpeakerShoot extends Command {
   private Shooter shooter;
-  private GroundIntake intake;
+  private IntakeRollers intake;
   private Timer timer;
-  public AutoSpeakerShoot(Shooter shooter, GroundIntake intake) {
+  public AutoSpeakerShoot(Shooter shooter, IntakeRollers intake) {
     this.intake = intake;
     this.shooter = shooter;
     timer = new Timer();

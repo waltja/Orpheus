@@ -23,7 +23,7 @@ public final class Constants {
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
-        //AKSHITA: when you have Kraken motors, make sure to change "Falcon500" to KrakenX60
+     
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(24.75); //TODO: This must be tuned to specific robot
