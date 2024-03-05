@@ -1,7 +1,7 @@
 package frc.robot;
 
 
-import com.fasterxml.jackson.databind.util.Named;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoIntake;
+
 import frc.robot.commands.Climbers.*;
 import frc.robot.autos.AutoSpeakerShoot;
 
@@ -65,8 +66,10 @@ public class RobotContainer {
     private final Outtake outtake;
     private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
+   
     private final ManualPivotIntake manualPivotIntake;
     private final AutoIntake autoIntake;
+  
     private final AutoSpeakerShoot autoSpeakerShoot;
 
 
@@ -129,6 +132,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake", autoIntake);
         NamedCommands.registerCommand("outtake", outtake);
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
+        
+      
+       
         NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
 
 
@@ -138,6 +144,7 @@ public class RobotContainer {
         
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
+      
 /* 
         SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
             Pose2d currentPose = s_Swerve.getPose();
