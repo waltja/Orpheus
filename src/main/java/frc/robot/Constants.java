@@ -146,7 +146,7 @@ public final class Constants {
     public static final class GroundIntake{
       public static final int INTAKE_MOTOR_ID = 14;
       public static final int INTAKE_PIVOT_ID = 15;
-      public static final double p = 5;
+      public static final double p = 10;
       public static final double i = 0.02;
       public static final double d = 0.01;
       public static final double tolerance = .01;
@@ -158,8 +158,8 @@ public final class Constants {
 
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 4.5; //used to be 3
+        public static final double kMaxAccelerationMetersPerSecondSquared = 4.5;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
