@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
+        "x": 2.902443459717638,
         "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5092705990502029,
-        "y": 6.870506094437874
+        "x": 1.4341558202504936,
+        "y": 6.815813763416575
       },
       "isLocked": false,
       "linkedName": "Right behind taxi line"
@@ -20,8 +20,8 @@
         "y": 6.7
       },
       "prevControl": {
-        "x": 2.062442176078741,
-        "y": 6.918311045539105
+        "x": 2.0588592763625226,
+        "y": 6.939603553408693
       },
       "nextControl": null,
       "isLocked": false,
