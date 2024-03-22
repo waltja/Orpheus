@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoIntake;
 
@@ -22,6 +23,9 @@ import frc.robot.commands.Intake.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Swerve.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climb.LeftClimber;
+import frc.robot.subsystems.Climb.RightClimber;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,43 +49,33 @@ public class RobotContainer {
     //private final JoystickButton robotCentric = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
-    private final LeftClimber leftClimber = new LeftClimber();
-    private final RightClimber rightClimber = new RightClimber();
-    private final Intake intakePivot = new Intake();
-    private final Shooter shooter = new Shooter();
-    private final IntakeRollers intakeRollers = new IntakeRollers();
-  
+    Swerve s_Swerve = new Swerve();
+    IntakeSubsystem intake = new IntakeSubsystem();
+    ShooterSubsystem shooter = new ShooterSubsystem();
+    LeftClimber leftClimber = new LeftClimber();
+    RightClimber rightClimber = new RightClimber();
+    Vision vision = new Vision();
+    RevBlinkin blink = new RevBlinkin();
 
+    /* Auto Chooser */
+    SendableChooser<Command> autoChooser;
 
-    /* Commands */
-    private final LeftClimberDown leftClimberDown;
-    private final LeftClimberUp leftClimberUp;
-    private final RightClimberDown rightClimberDown;
-    private final RightClimberUp rightClimberUp;
-    private final Intake intake;
-    private final IntakeDown intakeDown;
-    private final IntakeUp intakeUp;
-    private final AmpAngle ampAngle;
-    private final Outtake outtake;
-    private final ReverseShooter reverseShooter;
-    private final ShootIntoSpeaker shootIntoSpeaker;
-    private final SlowMode slowMode;
-    private final FastMode fastMode;
-   
-    private final ManualPivotIntake manualPivotIntake;
-    private final AutoIntake autoIntake;
-  
-    private final AutoSpeakerShoot autoSpeakerShoot;
-
-
-
-    private final SendableChooser<Command> autoChooser;
+    public void registerCommands() {
+        NamedCommands.registerCommand("shoot", new ShootIntoSpeaker(shooter));
+        NamedCommands.registerCommand("intake down", new IntakeDownCommand(intake));
+        NamedCommands.registerCommand("intake up", new IntakeUpCommand(intake));
+        NamedCommands.registerCommand("intake", new AutoIntake(intake));
+        NamedCommands.registerCommand("outtake", new OuttakeCommand(intake));
+        NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
+        NamedCommands.registerCommand("SpeakerShoot", new AutoSpeakerShoot(shooter, intake));
+    }
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        registerCommands();
         CameraServer.startAutomaticCapture();
+    
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -92,52 +86,35 @@ public class RobotContainer {
             )
         );
 
-        /*groundIntake.setDefaultCommand(
-            new ManualPivotIntake(
-                groundIntake, 
-               () -> armDriver.getRawAxis(translationAxis)));
-*/
+        intake.setDefaultCommand(new ManualPivotIntake(intake, () -> armDriver.getLeftY()));
 
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
+        // groundIntake.setDefaultCommand(
+        //     new ManualPivotIntake(
+        //         groundIntake, 
+        //        () -> armDriver.getRawAxis(translationAxis)));
 
+        // SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
+        //     Pose2d currentPose = s_Swerve.getPose();
 
-        NamedCommands.registerCommand("shoot", shootIntoSpeaker);
-        NamedCommands.registerCommand("intake down", intakeDown);
-        NamedCommands.registerCommand("intake up", intakeUp);
-        NamedCommands.registerCommand("intake", autoIntake);
-        NamedCommands.registerCommand("outtake", outtake);
-        NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
-        
-      
-       
-        NamedCommands.registerCommand("SpeakerShoot", autoSpeakerShoot);
+        //     Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+        //     Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2,0)), new Rotation2d());
+        //     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
 
+        //     PathPlannerPath path = new PathPlannerPath(
+        //     bezierPoints,
+        //      new PathConstraints(3, 3, 2*Math.PI, 4*Math.PI),
+        //      new GoalEndState(0, Rotation2d.fromDegrees(0))
+        //     );
+        //     path.preventFlipping = true;
 
+        //     AutoBuilder.followPath(path).schedule();
+        // }));
 
         // Configure the button bindings
         configureButtonBindings();
-        
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-      
-/* 
-        SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
-            Pose2d currentPose = s_Swerve.getPose();
-
-            Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2,0)), new Rotation2d());
-            List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-
-            PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-             new PathConstraints(3, 3, 2*Math.PI, 4*Math.PI),
-             new GoalEndState(0, Rotation2d.fromDegrees(0))
-            );
-            path.preventFlipping = true;
-
-            AutoBuilder.followPath(path).schedule();
-        }));
-        */
     }
 
     /**
@@ -146,29 +123,32 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() { 
+    private void configureButtonBindings() {
         baseDriver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-         baseDriver.b().toggleOnTrue(slowMode);
-         baseDriver.b().toggleOnFalse(fastMode);
-         
-        baseDriver.leftBumper().whileTrue(leftClimberDown);
-        baseDriver.leftTrigger(0.25).whileTrue(leftClimberUp);
-        baseDriver.rightBumper().whileTrue(rightClimberDown);
-        baseDriver.rightTrigger(0.25).whileTrue(rightClimberUp);
+        baseDriver.a().whileTrue(new TeleopSwerve(
+                s_Swerve,
+                () -> -baseDriver.getRawAxis(translationAxis),
+                () -> -baseDriver.getRawAxis(strafeAxis),
+                () -> vision.calculateOffset(),
+                () -> baseDriver.leftBumper().getAsBoolean()
+            ));
+
+        baseDriver.leftBumper().whileTrue(new LeftClimberDown(leftClimber));
+        baseDriver.leftTrigger(0.25).whileTrue(new LeftClimberUp(leftClimber));
+        baseDriver.rightBumper().whileTrue(new RightClimberDown(rightClimber));
+        baseDriver.rightTrigger(0.25).whileTrue(new RightClimberUp(rightClimber));
         
         // Operator Buttons 
         armDriver.leftTrigger(0.15).whileTrue(new ShootIntoSpeaker(shooter));
 
-        armDriver.rightTrigger(.15).whileTrue(intake);
-        armDriver.rightBumper().whileTrue(outtake);
-        armDriver.leftBumper().whileTrue(reverseShooter);
+        armDriver.rightTrigger(.15).whileTrue(new IntakeCommand(intake));
+        armDriver.rightBumper().whileTrue(new OuttakeCommand(intake));
+        armDriver.leftBumper().whileTrue(new ReverseShooter(shooter));
 
-        armDriver.y().onTrue(intakeDown);
-        armDriver.b().onTrue(ampAngle);
-        armDriver.a().onTrue(intakeUp);
-       
-armDriver.axisGreaterThan(translationAxis, .1).whileTrue(manualPivotIntake);
-        armDriver.axisLessThan(translationAxis, -.1).whileTrue(manualPivotIntake);
+        armDriver.y().onTrue(new IntakeDownCommand(intake));
+        armDriver.b().onTrue(new AmpAngle(intake));
+        armDriver.a().onTrue(new IntakeUpCommand(intake));
+        armDriver.x().onTrue(FastIntake());
       }
 
     /**
@@ -179,5 +159,14 @@ armDriver.axisGreaterThan(translationAxis, .1).whileTrue(manualPivotIntake);
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return autoChooser.getSelected();
+    }
+
+    public Command FastIntake() {
+        return new SequentialCommandGroup(
+            new IntakeDownCommand(intake),
+            new IntakeCommand(intake),
+            new InstantCommand(() -> blink.isIntake()),
+            new IntakeUpCommand(intake)
+        );
     }
 }

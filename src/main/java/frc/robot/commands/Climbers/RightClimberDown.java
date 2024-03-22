@@ -5,7 +5,7 @@
 package frc.robot.commands.Climbers;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.RightClimber;
+import frc.robot.subsystems.Climb.RightClimber;
 
 public class RightClimberDown extends Command {
   private RightClimber climber;

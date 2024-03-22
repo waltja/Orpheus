@@ -28,8 +28,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
-    public Field2d odometry;
-    public double speedMultiplier;
+    public static Field2d odometry;
 
     public Swerve() {
 
@@ -37,7 +36,6 @@ public class Swerve extends SubsystemBase {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, "cani");
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(180);
-        speedMultiplier = 1.0;
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -79,26 +77,19 @@ public class Swerve extends SubsystemBase {
 
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    translation.getX() * speedMultiplier, 
-                                    translation.getY() * speedMultiplier, 
-                                    rotation * speedMultiplier, 
+                                    translation.getX(), 
+                                    translation.getY(), 
+                                    rotation, 
                                     getHeading()
-                                )
-                                : new ChassisSpeeds(
-                                    translation.getX() * speedMultiplier, 
-                                    translation.getY() * speedMultiplier, 
-                                    rotation * speedMultiplier));
+                                ): new ChassisSpeeds(
+                                    translation.getX(), 
+                                    translation.getY(), 
+                                    rotation));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
-
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }    
-
-    //trying slow mode - maybe take out
-    public void setSpeedMultiplier(double speedMultiplier){
-        this.speedMultiplier = speedMultiplier;
-    }
 
     public ChassisSpeeds getRobotRelativeSpeeds(){
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
@@ -109,6 +100,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.AutoConstants.kMaxSpeedMetersPerSecond);
         setModuleStates(states);
     }
+
 
 
     /* Used by SwerveControllerCommand in Auto */
@@ -171,28 +163,25 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setX(){
-
       mSwerveMods[0].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45.0)),true);
       mSwerveMods[1].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(315.0)),true);
       mSwerveMods[2].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(315.0)),true);
       mSwerveMods[3].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45.0)),true);
-
     }
 
     
 
     @Override
     public void periodic(){
-        odometry.setRobotPose(swerveOdometry.getPoseMeters());
         swerveOdometry.update(getGyroYaw(), getModulePositions());
+        odometry.setRobotPose(swerveOdometry.getPoseMeters());
 
         SmartDashboard.putData("field", odometry);
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
-            SmartDashboard.putBoolean("slow mode", speedMultiplier == .5);    
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
     }
 }

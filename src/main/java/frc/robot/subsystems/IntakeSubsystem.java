@@ -14,7 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new Intake. */
  
   private static CANSparkMax intakePivot;
@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
   private static boolean ampAngle = false;
 
 
-  public Intake() {
+  public IntakeSubsystem() {
     intakePivot = new CANSparkMax(Constants.GroundIntake.INTAKE_PIVOT_ID, MotorType.kBrushless);
     intakePivotFollower = new CANSparkMax(Constants.GroundIntake.Intake_PIVOT_FOLLOWER_ID, MotorType.kBrushless);
     intakePivot.restoreFactoryDefaults();

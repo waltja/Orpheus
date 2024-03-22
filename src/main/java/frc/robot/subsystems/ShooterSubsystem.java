@@ -6,12 +6,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-public class Shooter extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new Shooter. */
   TalonFX ShooterMotorLeft;
   TalonFX ShooterMotorRight;
   
-    public Shooter() {
+    public ShooterSubsystem() {
 
         ShooterMotorLeft = new TalonFX(Constants.Shooter.ShooterMotorLeftID);
         ShooterMotorRight = new TalonFX(Constants.Shooter.ShooterMotorRightID);

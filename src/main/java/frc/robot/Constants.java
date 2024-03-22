@@ -1,22 +1,28 @@
 package frc.robot;
 
+import java.io.IOException;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.pathplanner.lib.util.PIDConstants;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
-
-    
-
 
     public static final class Swerve {
         public static final int pigeonID = 1;
@@ -146,20 +152,64 @@ public final class Constants {
     public static final class GroundIntake{
       public static final int INTAKE_MOTOR_ID = 14;
       public static final int INTAKE_PIVOT_ID = 15;
-      public static final double p = 1; 
-      public static final double i = 0.1;
-      public static final double d = 0.1;
+      public static final double p = 5;
+      public static final double i = 0.02;
+      public static final double d = 0.01;
       public static final double tolerance = .01;
       public static final double retractAngle =20.0;
       public static final double deployAngle = -420;
       public static final double ampAngle = -175.32;
       public static final int Intake_PIVOT_FOLLOWER_ID = 16;
+      public static final int INTAKE_LIMIT_SWITCH = 0;
     }
 
+    public static final class Vision{
+        public static final String CAM_NAME = "LeftCam";
+        public static final String CAM_NAME_BACK = "CoolCameraName"; // TODO: get an actual name
+        
+        public static final Transform3d ROBOT_TO_CAM_TRANSFORM =
+            new Transform3d(
+                new Translation3d(
+                    Units.inchesToMeters(11.528),
+                    Units.inchesToMeters(11.514),
+                    Units.inchesToMeters(8.334)),
+                new Rotation3d(Units.degreesToRadians(-135), Units.degreesToRadians(1), 0));
+        
+    }
+
+    public static final class FieldConstants{
+        public static final double LENGTH_METERS = 16.54175;
+        public static final double WIDTH_METERS = 8.0137;
+
+        public static AprilTagFieldLayout field;
+        static{
+            try{
+                field = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+            }
+            catch(IOException e){
+                e.printStackTrace();
+                field = null;
+            }
+        }
+        
+        
+        public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT = field;
+    }
+
+    public static final class AutoPilotConstants{
+        public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+        public static final PIDConstants ROTATION_PID = new PIDConstants(0, 0, 0);
+    }
+
+    public static final class DashboardConstants{
+        public static final ShuffleboardTab ODO_VISION_TAB = Shuffleboard.getTab("Odometry");
+    }
+
+    
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 5; //used to be 3
-        public static final double kMaxAccelerationMetersPerSecondSquared = 5;
+        public static final double kMaxSpeedMetersPerSecond = 2;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
@@ -173,4 +223,7 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
 
+    public static final class Blinkin{
+        public static final int BlinkinID = 0;
+    }
 }
