@@ -5,15 +5,20 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeRollers;
+import frc.robot.subsystems.IntakePivot;
 
-public class OuttakeCommand extends Command {
+public class Outtake extends Command {
+  private IntakeRollers intake;
+  private IntakePivot pivot;
 
-  private IntakeSubsystem intake;
 
-  public OuttakeCommand(IntakeSubsystem intake) {
+  public Outtake(IntakeRollers intake, IntakePivot pivot) {
+    
     this.intake = intake;
     addRequirements(intake);
+    this.pivot = pivot;
+    addRequirements(pivot);
   }
 
   @Override
@@ -21,14 +26,17 @@ public class OuttakeCommand extends Command {
 
   @Override
   public void execute() {
-    if(intake.isAtAmpAngle()){
+    if(pivot.isAtAmpAngle()){
     intake.intake(.205); 
-    } else {intake.intake(.6);}
+  }
+  else{
+    intake.intake(.6); 
+  }
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.stopIntake();
+    intake.stop();
   }
 
   @Override

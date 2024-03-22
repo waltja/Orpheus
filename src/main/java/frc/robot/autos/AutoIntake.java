@@ -4,13 +4,14 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+
+import frc.robot.subsystems.IntakeRollers;
 
 public class AutoIntake extends Command {
   
-  private IntakeSubsystem intake;
+  private IntakeRollers intake;
   private Timer timer;
-  public AutoIntake(IntakeSubsystem intake) {
+  public AutoIntake(IntakeRollers intake) {
     this.intake = intake;
     
     timer = new Timer();
@@ -30,13 +31,18 @@ public class AutoIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intake(-.7);
+
+    
+        intake.intake(-.7);
+  
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stopIntake();
+   
+    intake.stop();
   }
 
   // Returns true when the command should end.

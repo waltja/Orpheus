@@ -1,10 +1,10 @@
 package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 public class ShootIntoSpeaker extends Command {
   /** Creates a new ShootIntoSpeaker. */
-  private ShooterSubsystem shooter;
-  public ShootIntoSpeaker(ShooterSubsystem shooter) {
+  private Shooter shooter;
+  public ShootIntoSpeaker(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
   }

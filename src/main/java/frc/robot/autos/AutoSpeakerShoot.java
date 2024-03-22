@@ -8,14 +8,15 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+
+import frc.robot.subsystems.IntakeRollers;
+import frc.robot.subsystems.Shooter;
 
 public class AutoSpeakerShoot extends Command {
-  private ShooterSubsystem shooter;
-  private IntakeSubsystem intake;
+  private Shooter shooter;
+  private IntakeRollers intake;
   private Timer timer;
-  public AutoSpeakerShoot(ShooterSubsystem shooter, IntakeSubsystem intake) {
+  public AutoSpeakerShoot(Shooter shooter, IntakeRollers intake) {
     this.intake = intake;
     this.shooter = shooter;
     timer = new Timer();
@@ -51,7 +52,7 @@ public class AutoSpeakerShoot extends Command {
   public void end(boolean interrupted) {
     shooter.stopL();
     shooter.stopR();
-    intake.stopIntake();
+    intake.stop();
   }
 
   // Returns true when the command should end.

@@ -5,12 +5,12 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakePivot;
 
-public class IntakeDownCommand extends Command {
-  private IntakeSubsystem intake;
+public class IntakeDown extends Command {
+  private IntakePivot intake;
   /** Creates a new IntakeUp. */
-  public IntakeDownCommand(IntakeSubsystem intake) {
+  public IntakeDown(IntakePivot intake) {
     this.intake = intake;
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.

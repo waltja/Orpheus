@@ -50,8 +50,9 @@ public class RobotContainer {
 
     /* Subsystems */
     Swerve s_Swerve = new Swerve();
-    IntakeSubsystem intake = new IntakeSubsystem();
-    ShooterSubsystem shooter = new ShooterSubsystem();
+    IntakePivot intakePivot = new IntakePivot();
+    IntakeRollers intakeRollers = new IntakeRollers();
+    Shooter shooter = new Shooter();
     LeftClimber leftClimber = new LeftClimber();
     RightClimber rightClimber = new RightClimber();
     Vision vision = new Vision();
@@ -62,12 +63,12 @@ public class RobotContainer {
 
     public void registerCommands() {
         NamedCommands.registerCommand("shoot", new ShootIntoSpeaker(shooter));
-        NamedCommands.registerCommand("intake down", new IntakeDownCommand(intake));
-        NamedCommands.registerCommand("intake up", new IntakeUpCommand(intake));
-        NamedCommands.registerCommand("intake", new AutoIntake(intake));
-        NamedCommands.registerCommand("outtake", new OuttakeCommand(intake));
+        NamedCommands.registerCommand("intake down", new IntakeDown(intakePivot));
+        NamedCommands.registerCommand("intake up", new IntakeUp(intakePivot, intakeRollers));
+        NamedCommands.registerCommand("intake", new AutoIntake(intakeRollers));
+        NamedCommands.registerCommand("outtake", new Outtake(intakeRollers, intakePivot));
         NamedCommands.registerCommand("zero gyro", new InstantCommand(() -> s_Swerve.zeroHeading()));
-        NamedCommands.registerCommand("SpeakerShoot", new AutoSpeakerShoot(shooter, intake));
+        NamedCommands.registerCommand("SpeakerShoot", new AutoSpeakerShoot(shooter, intakeRollers));
     }
 
 
@@ -86,7 +87,7 @@ public class RobotContainer {
             )
         );
 
-        intake.setDefaultCommand(new ManualPivotIntake(intake, () -> armDriver.getLeftY()));
+        intakePivot.setDefaultCommand(new ManualPivotIntake(intakePivot, () -> armDriver.getLeftY()));
 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -141,13 +142,13 @@ public class RobotContainer {
         // Operator Buttons 
         armDriver.leftTrigger(0.15).whileTrue(new ShootIntoSpeaker(shooter));
 
-        armDriver.rightTrigger(.15).whileTrue(new IntakeCommand(intake));
-        armDriver.rightBumper().whileTrue(new OuttakeCommand(intake));
+        armDriver.rightTrigger(.15).whileTrue(new Intake(intakeRollers));
+        armDriver.rightBumper().whileTrue(new Outtake(intakeRollers, intakePivot));
         armDriver.leftBumper().whileTrue(new ReverseShooter(shooter));
 
-        armDriver.y().onTrue(new IntakeDownCommand(intake));
-        armDriver.b().onTrue(new AmpAngle(intake));
-        armDriver.a().onTrue(new IntakeUpCommand(intake));
+        armDriver.y().onTrue(new IntakeDown(intakePivot));
+        armDriver.b().onTrue(new AmpAngle(intakePivot));
+        armDriver.a().onTrue(new IntakeUp(intakePivot, intakeRollers));
         armDriver.x().onTrue(FastIntake());
       }
 
@@ -163,10 +164,10 @@ public class RobotContainer {
 
     public Command FastIntake() {
         return new SequentialCommandGroup(
-            new IntakeDownCommand(intake),
-            new IntakeCommand(intake),
+            new IntakeDown(intakePivot),
+            new Intake(intakeRollers),
             new InstantCommand(() -> blink.isIntake()),
-            new IntakeUpCommand(intake)
+            new IntakeUp(intakePivot, intakeRollers)
         );
     }
 }

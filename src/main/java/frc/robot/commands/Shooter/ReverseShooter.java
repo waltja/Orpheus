@@ -1,10 +1,10 @@
 package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Shooter;
 public class ReverseShooter extends Command {
   /** Creates a new ShootIntoSpeaker. */
-  private ShooterSubsystem shooter;
-  public ReverseShooter(ShooterSubsystem shooter) {
+  private Shooter shooter;
+  public ReverseShooter(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
   }
