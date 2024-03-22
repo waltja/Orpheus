@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 import frc.robot.Constants;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -48,13 +46,13 @@ public class IntakePivot extends SubsystemBase {
     sparkencoder = intakePivot.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
     relEnc = intakePivot.getEncoder();
-    relEnc.setPosition(sparkencoder.getPosition() *60);
+    relEnc.setPosition(sparkencoder.getPosition() *20);
 
     
     intakePivot.enableSoftLimit(SoftLimitDirection.kForward, true);
     intakePivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.retractAngle) /6));
-    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.deployAngle) /6));
+    intakePivot.setSoftLimit(SoftLimitDirection.kForward,(float)((Constants.GroundIntake.retractAngle) /18)); //changed math for new ratio
+    intakePivot.setSoftLimit(SoftLimitDirection.kReverse,(float) ((Constants.GroundIntake.deployAngle) /18));
     
   }
   
@@ -62,7 +60,7 @@ public class IntakePivot extends SubsystemBase {
   
 
   public void setRotation (double angle){
-    intakePivot.set(controller.calculate(relEnc.getPosition()/60, angle));
+    intakePivot.set(controller.calculate(relEnc.getPosition()/20, angle));
   }
 
   public void manualRotate(double speed){
@@ -101,7 +99,7 @@ public class IntakePivot extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Ground Intake Motor Position", relEnc.getPosition() *6);
+    SmartDashboard.putNumber("Ground Intake Motor Position", relEnc.getPosition() *18);
     SmartDashboard.putBoolean("amp angle", ampAngle);
   }
 }

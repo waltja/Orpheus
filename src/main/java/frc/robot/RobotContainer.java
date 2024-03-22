@@ -67,6 +67,7 @@ public class RobotContainer {
     private final ReverseShooter reverseShooter;
     private final ShootIntoSpeaker shootIntoSpeaker;
     private final SlowMode slowMode;
+    private final FastMode fastMode;
    
     private final ManualPivotIntake manualPivotIntake;
     private final AutoIntake autoIntake;
@@ -127,6 +128,8 @@ public class RobotContainer {
         autoSpeakerShoot.addRequirements(shooter, intakeRollers);
         slowMode = new SlowMode(s_Swerve);
         slowMode.addRequirements(s_Swerve);
+        fastMode = new FastMode(s_Swerve);
+        fastMode.addRequirements(s_Swerve);
 
 
 
@@ -179,6 +182,7 @@ public class RobotContainer {
     private void configureButtonBindings() { 
         baseDriver.y().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
          baseDriver.b().toggleOnTrue(slowMode);
+         baseDriver.b().toggleOnFalse(fastMode);
          
         baseDriver.leftBumper().whileTrue(leftClimberDown);
         baseDriver.leftTrigger(0.25).whileTrue(leftClimberUp);
