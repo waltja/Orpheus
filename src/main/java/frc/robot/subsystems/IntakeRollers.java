@@ -26,8 +26,7 @@ public class IntakeRollers extends SubsystemBase {
   public void outtake(double speed){
     intakeMotor.set(speed);
   }
-  public void stop(){
-
+  public void stopIntake(){
     intakeMotor.stopMotor();
   }
 

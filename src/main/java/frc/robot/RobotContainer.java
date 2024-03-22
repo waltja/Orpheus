@@ -48,7 +48,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final LeftClimber leftClimber = new LeftClimber();
     private final RightClimber rightClimber = new RightClimber();
-    private final IntakePivot intakePivot = new IntakePivot();
+    private final Intake intakePivot = new Intake();
     private final Shooter shooter = new Shooter();
     private final IntakeRollers intakeRollers = new IntakeRollers();
   
@@ -97,39 +97,6 @@ public class RobotContainer {
                 groundIntake, 
                () -> armDriver.getRawAxis(translationAxis)));
 */
-       
-        leftClimberDown = new LeftClimberDown(leftClimber);
-        leftClimberDown.addRequirements(leftClimber);
-        leftClimberUp = new LeftClimberUp(leftClimber);
-        leftClimberUp.addRequirements(leftClimber);
-        rightClimberDown = new RightClimberDown(rightClimber);
-        rightClimberDown.addRequirements(rightClimber);
-        rightClimberUp = new RightClimberUp(rightClimber);
-        rightClimberUp.addRequirements(rightClimber);
-        intake = new Intake(intakeRollers);
-        intake.addRequirements(intakeRollers);
-        intakeDown = new IntakeDown(intakePivot);
-        intakeDown.addRequirements(intakePivot);
-        intakeUp = new IntakeUp(intakePivot);
-        intakeUp.addRequirements(intakePivot);
-        ampAngle = new AmpAngle(intakePivot);
-        ampAngle.addRequirements(intakePivot);
-        outtake = new Outtake(intakeRollers, intakePivot);
-        outtake.addRequirements(intakeRollers, intakePivot);
-        reverseShooter = new ReverseShooter(shooter);
-        reverseShooter.addRequirements(shooter);
-        shootIntoSpeaker = new ShootIntoSpeaker(shooter);
-        shootIntoSpeaker.addRequirements(shooter);
-        manualPivotIntake = new ManualPivotIntake(intakePivot, () -> armDriver.getRawAxis(translationAxis));
-        manualPivotIntake.addRequirements(intakePivot);
-        autoIntake = new AutoIntake(intakeRollers);
-        autoIntake.addRequirements(intakeRollers);
-        autoSpeakerShoot = new AutoSpeakerShoot(shooter, intakeRollers);
-        autoSpeakerShoot.addRequirements(shooter, intakeRollers);
-        slowMode = new SlowMode(s_Swerve);
-        slowMode.addRequirements(s_Swerve);
-        fastMode = new FastMode(s_Swerve);
-        fastMode.addRequirements(s_Swerve);
 
 
 

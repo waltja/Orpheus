@@ -5,11 +5,11 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakePivot;
+import frc.robot.subsystems.Intake;
 
 public class AmpAngle extends Command {
-  private IntakePivot intake;
-  public AmpAngle(IntakePivot intake) {
+  private Intake intake;
+  public AmpAngle(Intake intake) {
     this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
   }
